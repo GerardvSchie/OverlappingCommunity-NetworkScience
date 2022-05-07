@@ -639,7 +639,7 @@ int int_histogram (vector <int> &c, ostream & out) {
 	prints(hist, out);
 
 
-
+	return -1;
 }
 
 int int_histogram (deque <int> &c, ostream & out) {
@@ -668,7 +668,7 @@ int int_histogram (deque <int> &c, ostream & out) {
 	prints(hist, out);
 
 
-
+	return -1;
 }
 
 

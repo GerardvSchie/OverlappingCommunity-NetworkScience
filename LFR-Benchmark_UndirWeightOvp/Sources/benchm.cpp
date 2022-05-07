@@ -585,7 +585,7 @@ int weights(deque<set<int> > & en, const deque<deque<int> > & member_list, const
 		
 	
 	
-	double strs[en.size()]; // strength of the nodes
+	double (*strs) = new double[en.size()]; // strength of the nodes
 	// build a matrix like this: deque < map <int, double > > each row corresponds to link - weights 
 
 	
@@ -699,7 +699,7 @@ int weights(deque<set<int> > & en, const deque<deque<int> > & member_list, const
 	
 	
 
-	
+	delete[] strs;
 	
 	return 0;
 
