@@ -40,6 +40,7 @@
 
 
 #include "binary_benchm.cpp"
+#include <sstream>
 
 
 int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, const deque<deque<int> > & member_matrix, 
@@ -105,6 +106,13 @@ int print_network(deque<set<int> > & E, const deque<deque<int> > & member_list, 
 
 
 	ofstream out1(fnameNetwork.c_str());
+	if (!out1) {
+		cout << "could not open the file:" << fnameNetwork << endl;
+	}
+	else
+	{
+		cout << "File:" << fnameNetwork << " is opened" << endl;
+	}
 	// Output the header
 	out1 << "# Nodes: " << num_nodes << ", " << (directed ? "Arcs" : "Edges") << ": "
 		<< (directed ? arcs : arcs / 2) <<  ", Weighted: 1" << endl;
@@ -840,35 +848,66 @@ int benchmark(bool excess, bool defect, int num_nodes, double  average_k, int  m
 
 void erase_file_if_exists(string s) {
 
-	char b[100];
+	char b[300];
 	cast_string_to_char(s, b);
 	
 	
 	ifstream in1(b);
 	
 	if(in1.is_open()) {
+		std::cerr << "Warning: existing file is overwritten!" << std::endl;
 		
-		char rmb[120];
-		sprintf(rmb, "rm %s", b);
+		// Linux specific
+		//char rmb[120];
+		//sprintf(rmb, "rm %s", b);
 
-		int erase= system(rmb);
+		//int erase= system(rmb);
 	}
 
+	in1.close();
 
+	if (std::remove(b) != 0) {
+		std::cerr << "File could not be removed!" << std::endl;
+	}
+	else {
+		std::cout << "File was removed" << std::endl;
+	}
 }
 
 
 
 int main(int argc, char * argv[]) {
-	
-		
 	Parameters p;
+	// If arguments not given from the run command
 	if(set_parameters(argc, argv, p)==false) {
-		
-		if (argc>1)
-			cerr<<"Please, look at ReadMe.txt..."<<endl;
-		
-		return -1;
+		// Read line from the terminal given by user
+		string s;
+		std::getline(std::cin, s);
+
+		// Parse string and put it in vector (aka. list)
+		std::stringstream ss(s);
+		std::istream_iterator<std::string> begin(ss);
+		std::istream_iterator<std::string> end;
+		std::vector<std::string> vstrings(begin, end);
+		std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
+
+		// Now create the argv object
+		std::vector<char*> argv;
+		for (const auto& arg : vstrings)
+			argv.push_back((char*)arg.data());
+		// End it with a nullptr
+		argv.push_back(nullptr);
+
+		// Set these parameters given by user
+		if (set_parameters(argv.size()-1, argv.data(), p) == false) {
+			if (argc > 1)
+				cerr << "Please, look at ReadMe.txt..." << endl;
+
+			cerr << "ARGUMENTS MISSING, press any key to close" << endl;
+			std::getchar();
+
+			return -1;
+		}
 	}
 	
 	srand_file(p.fnameSeed.c_str());
@@ -882,7 +921,9 @@ int main(int argc, char * argv[]) {
 		p.tau, p.tau2, p.mixing_parameter,  p.mixing_parameter2,  p.beta,
 		p.overlapping_nodes, p.overlap_membership, p.nmin, p.nmax, p.fixed_range,
 		p.clustering_coeff, p.cnodes, p.fnameNetwork, p.directed, p.fnameCommunity, p.fnameStatistics);
-		
+
+	// So it doesn't close immediately
+	std::getchar();
 	return 0;
 	
 }
