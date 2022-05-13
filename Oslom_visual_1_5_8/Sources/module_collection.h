@@ -915,7 +915,7 @@ bool module_collection::erase_pieces(bool ex_flag) {
 	
 	}
 	
-	
+	return true;
 }
 
 
@@ -945,7 +945,7 @@ bool module_collection::erase_included(bool ex_flag) {
 
 	}
 
-
+	return true;
 }
 
 

@@ -2222,7 +2222,7 @@ int clomnet::check_props(bool anyway) {
 int clomnet::fill_homel() {
 
 	Mcoll.fill_gaps();
-
+	return 0;
 }
 
 

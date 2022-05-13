@@ -150,8 +150,8 @@ bool wsarray::erase(int y) {
 	
 	//cout<<"_size_ "<<_size_<<endl;
 	
-	int ll[_size_];
-	pair<int, double> ww[_size_];
+	int (*ll) = new int[_size_];
+	pair<int, double> (*ww) = new pair<int, double>[_size_];
 	
 	
 	int poi=0;
@@ -182,7 +182,8 @@ bool wsarray::erase(int y) {
 			
 	}
 	
-	
+	delete[] ll;
+	delete[] ww;
 	
 	return true;
 

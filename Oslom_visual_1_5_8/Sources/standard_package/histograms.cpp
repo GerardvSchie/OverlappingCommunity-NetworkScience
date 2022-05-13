@@ -295,7 +295,7 @@ double compute_quantiles(double q, deque<double> & y, deque<double> & qs) {
 		qs.push_back(y[qv]);
 
 
-
+		return 0.0;
 }
 
 
@@ -1353,7 +1353,7 @@ int int_histogram (vector <int> &c, ostream & out) {
 	prints(hist, out);
 
 
-
+	return 0;
 }
 
 int int_histogram (deque <int> &c, ostream & out) {
@@ -1382,7 +1382,7 @@ int int_histogram (deque <int> &c, ostream & out) {
 	prints(hist, out);
 
 
-
+	return 0;
 }
 
 int int_histogram(int c, map<int, int> & hist) {
@@ -1396,7 +1396,7 @@ int int_histogram(int c, map<int, int> & hist) {
 		itf->second++;
 	
 	
-
+	return 0;
 }
 
 
@@ -1411,7 +1411,7 @@ int int_histogram(int c, map<int, double> & hist, double w) {
 		itf->second+=w;
 	
 	
-
+	return 0;
 }
 
 
@@ -1432,7 +1432,7 @@ int int_histogram(int c, map<int, pair<double, double> > & hist, double w1, doub
 	
 	}
 	
-
+	return 0;
 }
 
 
@@ -1568,7 +1568,7 @@ int int_histogram(string infile, string outfile) {
 	int_histogram(H, outg);
 	
 
-
+	return 0;
 }
 
 #endif
