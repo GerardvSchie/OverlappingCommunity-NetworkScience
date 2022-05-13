@@ -1,3 +1,4 @@
 # https://github.com/GiulioRossetti/DEMON
 demon>=2.0.6
 oslom-runner>=1.5
+matplotlib
