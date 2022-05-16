@@ -1,6 +1,5 @@
-
-
-
+#include <direct.h>
+#include <filesystem>
 
 
 
@@ -34,14 +33,19 @@ int main(int argc, char * argv[]) {
 	//luca.draw("dd");
 
 	
-	
+	// Make directory for oslo files
 	char direc_char[1000];
 	cast_string_to_char(paras.file1, direc_char);
 	char char_to_use[1000];
-	sprintf(char_to_use, "nohup mkdir %s_oslo_files > mk_hup", direc_char);
+	string dir_to_make;
+	dir_to_make = std::string(direc_char) + "_oslo_files";
+	std::filesystem::remove_all(dir_to_make.c_str());
+	_mkdir(dir_to_make.c_str());
+	// Empty the directory
 	int sy=system(char_to_use);
-	sprintf(char_to_use, "nohup rm -r %s_oslo_files/* > mk_hup", direc_char);
-	sy=system(char_to_use);
+	//sprintf(char_to_use, "nohup rm -r %s_oslo_files/* > mk_hup", direc_char);
+	//std::filesystem::remove_all("myDirectory");
+	//sy=system(char_to_use);
 
 	
 	cout<<"output files will be written in directory: "<<direc_char<<"_oslo_files"<<endl;
