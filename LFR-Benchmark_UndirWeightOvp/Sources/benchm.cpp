@@ -923,7 +923,7 @@ int main(int argc, char * argv[]) {
 		p.clustering_coeff, p.cnodes, p.fnameNetwork, p.directed, p.fnameCommunity, p.fnameStatistics);
 
 	// So it doesn't close immediately
-	std::getchar();
+	//std::getchar();
 	return 0;
 	
 }
