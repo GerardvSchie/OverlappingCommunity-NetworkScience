@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from argparse import Namespace
 
 LFR_BIN = os.path.abspath("../../LFR-Benchmark_UndirWeightOvp/x64/Debug")
+OSLOM_BIN = os.path.abspath("../../Oslom_visual_1_5_8/x64/Debug")
+# OSLOM -f example.dat -uw -time 0.005 -infomap 3 -copra 2 -louvain 1
 
 
 def run_demon(G):
@@ -61,27 +63,59 @@ def read_graph(edges_path, weighted=False):
     return G
 
 
+def run_oslom(path, weighted=False):
+    # run OSLOM with files already on disk
+    # args = Namespace()
+    # args.edges = path
+    # args.output_clusters = os.path.abspath("../test/output.json")
+    # args.oslom_output = os.path.abspath("../test")
+    # args.min_cluster_size = oslom.DEF_MIN_CLUSTER_SIZE = 3
+    # args.oslom_exec = oslom.DEF_OSLOM_EXEC = os.path.abspath("../../Oslom_visual_1_5_8/x64/Debug/OSLOM.exe")
+    # args.oslom_args = oslom.DEF_OSLOM_ARGS = ["-w"]
+    # oslom.run(args)
+
+    weightedArg = None
+    if weighted:
+        weightedArg = "-w"
+    else:
+        weightedArg = "-uw"
+
+    # OSLOM -f example.dat -uw -time 0.005 -infomap 3 -copra 2 -louvain 1
+    command = [
+        os.path.join(OSLOM_BIN, "OSLOM.exe"),
+        "-f", path,
+        weightedArg,
+        "-t", "0.005",
+        "-infomap", "3",
+        "-copra", "2",
+        "-louvain", "1"
+    ]
+
+    subprocess.run(command, shell=True, check=True)
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # Generate graph using LFR benchmark executable
     graph_name = "test100_15"
-    create_graph(100, 5, 20, 0.1, 7, 20, graph_name)
+    # create_graph(100, 5, 20, 0.1, 7, 20, graph_name)
 
     # Read the graph from the generated edge (*.nse) file into nx graph
     path = os.path.join("../networks", graph_name + ".nse")
-    G = read_graph(path, weighted=True)
+    # G = read_graph(path, weighted=True)
+
+    run_oslom(path)
 
     # Sanity check that it has been read
-    print("Degree distribution:")
-    print(nx.degree_histogram(G))
-
-    # Detect communities on karate club network
-    KarateGraph = nx.karate_club_graph()
-    demon_communities = run_demon(G)
-    print(demon_communities)
-
-    # Visualize the network
-    visual_graph(G)
+    # print("Degree distribution:")
+    # print(nx.degree_histogram(G))
+    #
+    # # Detect communities on karate club network
+    # KarateGraph = nx.karate_club_graph()
+    # demon_communities = run_demon(G)
+    # print(demon_communities)
+    #
+    # # Visualize the network
+    # visual_graph(G)
 
 # # run OSLOM with files already on disk
 # args = Namespace()

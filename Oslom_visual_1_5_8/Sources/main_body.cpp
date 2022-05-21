@@ -43,9 +43,6 @@ int main(int argc, char * argv[]) {
 	_mkdir(dir_to_make.c_str());
 	// Empty the directory
 	int sy=system(char_to_use);
-	//sprintf(char_to_use, "nohup rm -r %s_oslo_files/* > mk_hup", direc_char);
-	//std::filesystem::remove_all("myDirectory");
-	//sy=system(char_to_use);
 
 	
 	cout<<"output files will be written in directory: "<<direc_char<<"_oslo_files"<<endl;
@@ -180,7 +177,7 @@ int main(int argc, char * argv[]) {
 		
 		luca.fast_gather_and_process(false);
 		
-		int sy=system("mv louvain_fast.part louvain_fast_0.part");
+		int sy=system("move louvain_fast.part louvain_fast_0.part");
 		
 		if(paras.veryfast==false) {
 			luca.post_processing(luca.Mcoll, true);
@@ -260,7 +257,7 @@ int main(int argc, char * argv[]) {
 	
 	cout<<"writing final solution in file "<<char_to_use<<endl;
 	luca.print_modules(false, string(char_to_use));				// homeless nodes printed
-	sprintf(char_to_use, "cp %s_oslo_files/tp .", direc_char);
+	sprintf(char_to_use, "xcopy %s_oslo_files/tp .", direc_char);
 	int csy=system(char_to_use);
 	
 	sprintf(char_to_use, "%s_oslo_files/statistics_level_0.dat", direc_char);

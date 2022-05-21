@@ -152,7 +152,7 @@ void main_collection(int level, clomnet & matteo, char * direc_char) {
 		
 			
 		char char_to_copy[1000];
-		sprintf(char_to_copy, "cp %s_oslo_files/net%d oslo_network_h", direc_char, level);
+		sprintf(char_to_copy, "xcopy %s_oslo_files/net%d oslo_network_h", direc_char, level);
 		int csy=system(char_to_copy);
 		
 		// ------------------------ collecting modules -----------------------------------------
@@ -214,7 +214,7 @@ void main_collection(int level, clomnet & matteo, char * direc_char) {
 		}
 			
 		char mvl[1000];
-		sprintf(mvl, "mv louvain_fast.part louvain_fast_%d.part", level);
+		sprintf(mvl, "move louvain_fast.part louvain_fast_%d.part", level);
 		int sy=system(mvl);
 
 		
