@@ -1,0 +1,25 @@
+# The communities at k=6
+# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
+# at no lower link weight threshold,
+# and at no upper link weight threshold.
+# Links were treated as undirected.
+# No time limit was set for the clique search.
+
+0: Shs1p Cdc12p Cdc11p Bni5p Cdc10p Cdc3p Gin4p 
+1: Spt5p Cdc73p Ctr9p Leo1p Paf1p Rtf1p 
+2: Cef1p Clf1p Isy1p Prp19p Syf1p Syf2p 
+3: Elp6p Elp2p Elp3p Elp4p Iki1p Iki3p 
+4: Cdc16p Apc11p Apc1p Apc2p Apc4p Apc5p Apc9p Cdc23p Cdc26p Cdc27p Doc1p 
+5: Atp1p Atp2p Atp17p Atp18p Atp6p Atp7p 
+6: Cop1p Bet1p Bos1p Sec21p Sec22p Ret2p Ret3p Sec26p Sec27p 
+7: Bre2p Sdc1p Set1p Shg1p Spp1p Swd1p Swd2p Swd3p 
+8: Cdc6p Orc1p Orc6p Orc2p Orc3p Orc4p Orc5p 
+9: Rfc2p Rfc4p Ctf18p Ctf8p Rfc3p Rfc5p 
+10: DIP:1765N Cpr1p Hos2p Hst1p Sif2p Snt1p Set3p 
+11: Lsm8p Lsm3p SmD3 SmD2 Lsm1p Lsm4p Lsm5p Lsm7p Dcp1p Lsm2p Lsm6p Pat1p Prp24p 
+12: Rpt3p Rpt1p Rpn9p Rpt5p Rpn1p Rpn11p Rpn5p Rpt4p Rad23p Rpt6p Rpt2p Rpn12p Ecm29p Rpn10p Rpn6p Rpn8p Pre1p Rpn13p Rpn3p Rpn7p 
+13: Ost1p Ost2p Ost3p Ost4p Ost5p Stt3p Swp1p Wbp1p 
+14: Ada2p Adr1p Gcn4p Ngg1p Spt7p TBP Taf1p Taf5p Taf6p Taf9p 
+15: Cdc36p Caf130p Caf40p Ccr4p Cdc39p Mot2p Not3p Not5p Pop2p 
+16: Swd2p Pfs2p Cft1p Cft2p Fip1p Mpe1p Pap1p Pcf11p Pta1p Pti1p Rna14p Ysh1p Yth1p Ref2p 
+17: Prp8p Prp4p Lsm8p SmD3 Snu66p Prp31p 

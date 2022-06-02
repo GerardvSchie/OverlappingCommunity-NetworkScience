@@ -1,0 +1,13 @@
+# The node membership distr. in the  communities at k=4
+# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
+# at no lower link weight threshold,
+# and at no upper link weight threshold.
+# Links were treated as undirected.
+# No time limit was set for the clique search.
+
+0 2005
+1 532
+2 65
+3 11
+4 1
+

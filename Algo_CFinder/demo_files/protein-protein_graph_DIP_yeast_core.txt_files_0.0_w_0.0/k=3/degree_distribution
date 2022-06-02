@@ -1,0 +1,21 @@
+# The com. degree distr. of the  communities at k=3
+# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
+# at no lower link weight threshold,
+# and at no upper link weight threshold.
+# Links were treated as undirected.
+# No time limit was set for the clique search.
+
+0 34
+1 41
+2 40
+3 19
+4 14
+5 2
+6 7
+7 5
+10 1
+12 1
+18 1
+20 1
+65 1
+

@@ -1,0 +1,11 @@
+# The contained cliques in the communities at k=8
+# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
+# at no lower link weight threshold,
+# and at no upper link weight threshold.
+# Links were treated as undirected.
+# No time limit was set for the clique search.
+
+0: 993 994 
+1: 1049 
+2: 1264 1321 1323 1322 
+3: 1268 1269 

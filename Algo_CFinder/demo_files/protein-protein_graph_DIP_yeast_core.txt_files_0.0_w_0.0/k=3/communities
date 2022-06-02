@@ -1,0 +1,174 @@
+# The communities at k=3
+# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
+# at no lower link weight threshold,
+# and at no upper link weight threshold.
+# Links were treated as undirected.
+# No time limit was set for the clique search.
+
+0: Aap1p Atp1p Atp2p Atp11p Atp14p Atp15p Atp16p Atp17p Atp18p Atp4p Atp6p Atp7p Atp20p Atp3p Atp5p Inh1p Oli1p Tim11p 
+1: Abp1p Act1p App1p Arp2p Arp3p Cla4p DIP:1472N Inp52p Myo5p Prk1p Rvs167p Sac6p Sla1p Sla2p Sps1p Srv2p Ysc84p Cdc28p Acf2p DIP:2753N Aip1p Bem1p Bni1p Bud6p Cof1p Fus1p Las17p Myo1p Myo4p Pfy1p Rsp5p Ste20p Tef2p Vrp1p Cdc42p Cdc24p Ste4p Crn1p Rvs161p Swe1p Arc15p Arc18p Arc19p Arc35p Arc40p Myo3p Cmd1p End3p Bbc1p Bck1p Boi1p Boi2p Far1p Rsr1p Spa2p Ste11p Bzz1p DIP:2756N She3p Cna1p Mlc1p Myo2p DIP:1602N Gpm1p She2p DIP:1987N DIP:2073N DIP:2890N DIP:2891N Lsb3p Gts1p Hse1p DIP:2931N Pan1p Rox3p Ubp7p Kre6p Lsb5p Mth1p Met1p Srl1p Tdh3p Pdr3p Rpl36bp 
+2: Ade5'7p Rfc2p Rfc4p Rad24p Ctf18p Ctf8p Rfc3p Rfc5p Elg1p Pol30p Rfc1p Rnq1p 
+3: Afg3p Ccp1p Yta12p 
+4: Apl1p Apm4p Aps2p Apl3p 
+5: Apl5p Apl6p Apm3p Aps3p Vam3p 
+6: Rpc40p Arf1p Arf2p Gpi16p 
+7: Arg80p Arg81p Arg82p Mcm1p Ume6p 
+8: Arp1p Jnm1p Nip100p 
+9: Asf1p Rnr2p Rnr4p 
+10: Ask1p Dad1p Dad2p Duo1p Ipl1p Dam1p Spc19p Spc34p Sli15p 
+11: Avo1p Lst8p Tor2p Avo2p Bit61p Tsc11p 
+12: Apg12p Srp1p Gcn2p Nhp2p Prp8p Rpo21p Abf1p Cka1p Cka2p Ckb1p Ckb2p Rad16p Sin3p Arp2p Cla4p Sps1p Tup1p Shs1p Cdc28p Crm1p Sua7p Arp4p Nhp10p Ada2p Adr1p Cdc36p Gal4p Gcn4p Gcn5p Hfi1p Ngg1p Rxt1p Spt20p Spt3p Spt7p Srb2p Srb4p Srb7p TBP Taf1p Taf5p Taf6p Taf9p Tra1p Pwp2p Isw2p Mot1p Sir2p Cdc42p Yck1p Taf10p Hrp1p Bud20p Cdc12p Slt2p Npl3p Ste50p Rpt3p Pre3p Rpt1p eIF4A Vps41p Nop4p Pab1p Prp6p Los1p Snf1p Rad51p Rpn9p Rvb2p Jnm1p Mkk2p Prp4p Rvb1p Hhf1p Hht1p Hta1p Htb1p Arx1p Lsg1p Nmd3p Nop15p Nsa2p Nup100p Nup42p Sda1p Asc1p Enp2p Krr1p Prp43p Sik1p Utp22p eIF4G1 Rad53p Kap95p Utp13p Bck1p Mkk1p Caf130p Nop2p Rio2p Bem3p Zds2p Bem4p Cdc11p Gic1p Spr28p Sec27p Cdc5p Bfr2p Lcp5p Pre4p Blm3p Pre8p Scl1p Snf4p Gic2p Bms1p Utp7p Spa2p Bni5p Cdc10p Cdc3p Gin4p Lsm8p Lsm3p Brr1p Smx2p Sto1p Brr2p Nog2p SmD3 Snp1p Snu66p Brx1p Erb1p Mak21p Ddi1p Cic1p DIP:5365N Lhp1p Mdn1p Mrt4p Nog1p Nop12p Nop7p Nug1p Puf6p Rlp7p Rpf2p Tif6p Caf40p Ccr4p Cdc39p Mot2p Not3p Not5p Pop2p Caf16p Ssn2p Caf20p eIF4E Dbf2p Caf4p Cct6p Ssn3p Hrr25p Sip4p Cbc2p Luc7p Mud1p Nam8p Nrd1p SmD2 Snu56p Snu71p Tir1p Cbf5p Fun12p Fyv14p Gar1p Has1p Hca4p Naf1p Nop10p Nop1p Rrp12p Sof1p Ssn8p Cdc55p DIP:1825N Tap42p Rpt5p Kcc4p Siz1p Ubc9p Pol1p Ssa1p Ssa2p Nup1p Orc1p Pak1p Rga1p Rpn1p Ub Taf11p Taf3p Lys12p Iml1p Pph21p Pph22p Tpd3p Zds1p Nop13p Taf14p Dhh1p Nut1p Hsh155p Spt16p Vps1p Chd1p Isw1p Lsm1p Sds3p Ebp2p Kre33p Utp15p Ytm1p Dbp10p Hot1p Pob3p Rho3p Rpd3p Kap104p Mak5p Pup2p Rpn11p Med2p Lsm4p Ptc3p Sif2p Dcp2p Gsp1p Nup116p Nup145p Nup159p Nup49p Nup57p Srm1p Yap1p Yrb1p Yrb2p Cse1p Csl4p Dis3p Rrp45p Csm1p Smx3p Rpn5p Ctk1p Ubr1p Lea1p Mtr3p Sfh1p Pse1p Rps28bp Sec13p Seh1p Pre7p DIP:1926N Rpt4p DIP:2599N Lsm5p Lsm7p DIP:2694N Pre10p Pub1p Ume1p DIP:4499N Rad23p Nsp1p Med7p DIP:6319N DIP:6347N Rpt6p DIP:6617N Nas6p Rpt2p Prp31p DIP:842N Dcp1p Tfp1p Lsm2p Dbp9p Med6p Lsm6p Pat1p Dfg5p Ssf1p Dib1p Dip2p Utp18p Lrp1p Rrp40p Rrp42p Rrp43p Rrp46p Rrp4p Rrp6p Ski6p Ski7p Rpn12p Rxt3p Htb2p Drs1p Dsk2p Rpn2p Rad50p Pup1p Eaf3p Ecm16p Enp1p Sxm1p Ecm29p Rpn10p Rpn6p Rpn8p Eft2p Nup2p Nup60p Emg1p Mak11p Noc2p Nop16p Nsa1p Ero1p Ost1p Sir4p Gal11p Exo84p Rck1p Nop58p Tsr1p Utp10p Utp20p Med1p Med4p Med8p Rgr1p Rox3p Sin4p Srb5p Srb6p Tfa1p Tfa2p Gal83p Sip2p Utp21p Sgf29p Ubp8p Rap1p Reg1p Gle2p Nan1p Gsp2p Kap123p Mog1p Msn5p Mtr10p Ntf2p Pho4p Rna1p Kap122p Rpf1p Sui1p Sir3p Hsm3p Rlr1p Nab2p Sme1p Spp381p Sth1p Idh1p Pup3p Imp3p Mpp10p Imp4p Ioc3p Nhp6bp Itc1p Npl6p Rsc2p Rsc58p Rsc6p Rsc8p Kap120p Toa1p Toa2p Kem1p Nop14p Rrp9p Utp19p Utp4p Utp6p Mkt1p SmD1 Snu114p Prp24p Prp3p Smb1p Yhc1p Med11p Pre1p Nic96p Ssl2p Prp40p Nup133p Nup188p Nup82p Nup84p Prp39p Prp42p Nup53p Pom152p Tfs1p Taf12p Nup120p Nup170p Nup85p Yap3p Ssb1p Sir1p eIF4G2 Pho23p Tfb2p Pre6p Tip41p Rts1p Pre2p Pre5p Pre9p Rpn13p Rpn3p Rpn7p Ump1p Rok1p Utp11p Utp8p Rco1p Sfl1p Rxt2p Sap30p Ubp6p Sky1p Sbp1p Sgf73p Sip1p Spt8p Taf7p 
+13: Bet3p Bet5p Fks1p Kre11p Trs120p Trs130p Trs20p Trs23p Trs31p Trs33p 
+14: Ste20p Bmh1p Bmh2p Kcs1p Nth1p 
+15: Sto1p Bur2p Sgv1p 
+16: Cac2p Msi1p Rlf2p 
+17: Cat2p Pex19p Pex5p Pex7p Pex13p Pex14p Pex10p Pex12p Pex15p Pex22p Pex4p Pex17p Pex18p Pex21p Pex3p Pot1p 
+18: Cbf1p Met28p Met4p 
+19: Cbf1p Mcm21p Mif2p 
+20: Cdc123p DIP:1774N DIP:1884N DIP:1971N 
+21: Cdc13p Stn1p Ten1p 
+22: Cdc20p Mad1p Mad2p 
+23: Cdc28p Taf5p Slt2p Ste4p Cdc16p Apc11p Apc1p Apc2p Apc4p Apc5p Apc9p Cdc23p Cdc26p Cdc27p Doc1p Hrt1p Pwp1p Swe1p Far1p Sec27p Cdc5p Skp1p Met30p Kin2p Cln2p Clb2p Caf4p Cct2p Tcp1p Sof1p Cdc20p Cdc55p Cdh1p Ime2p Pfs2p Pph3p Rad28p Wtm1p Pds1p Cks1p Clb1p Clb3p Clb4p Clb5p Cln1p Cln3p DIP:2703N Dbf4p Grr1p Kel1p Kel2p Lte1p Sic1p Srl3p Swi6p Cdc34p Cdc4p Cdc53p Sgt1p DIP:1631N DIP:6404N Mdm30p Pdc5p Pdc6p Rub1p Ufo1p Swi4p 
+24: Cdc2p Hys2p Pol32p 
+25: Rpo21p Spt5p Rpc40p Rpb7p Rpt1p Rpo31p Ceg1p Rpc34p Kin28p Net1p Rpa12p Cdc73p Ctr9p Leo1p Paf1p Rpb2p Rtf1p Taf14p Cet1p Spt16p Rpb3p Rpc37p Rpc19p Rpa190p Iki3p Tfg1p Rpa135p Hpr1p Rpb4p Rpb5p Rpo26p Ret1p Rpc11p Rpa43p Rpb10p Rpb8p Rpa49p Rpb11p Rpb9p Tfg2p Rpc25p Rpc17p Rpc31p Rpc53p Rpc82p 
+26: Chc1p Clc1p Swa2p Yap1801p 
+27: Sec7p Cop1p Cog2p Aut7p Vam3p Vps41p Arf1p Bet1p Bos1p Sec21p Sec22p Erp2p Nup42p Nyv1p Ret2p Ret3p Sar1p Sec23p Sec24p Sec26p Sec27p Sec28p Sed5p Sly1p Cdc39p Mon1p Vps16p Sfb3p Sec31p Cog1p Cog3p Cog4p Cog6p Ypt1p Gos1p Ykt6p Dsl1p Glo3p Lsm4p Pgk1p Prp11p Pep12p Sec13p Erv25p Emp24p Erp1p Gpt2p Mf(alpha)1p Tlg1p Pep3p Pep5p Vam6p Sfb2p Sec17p Vam7p Vti1p Vps33p Vps8p Sec16p Sec9p Tlg2p Vps45p 
+28: Cox2p Sco1p Sco2p 
+29: Ub Cps1p Stp22p Vps28p 
+30: Cyb2p Mas6p Tim50p 
+31: DIP:1572N DIP:6343N Fet4p Pho84p Vps64p 
+32: Gin4p Nap1p DIP:1680N Nis1p Rim11p 
+33: Yck1p Bcy1p Tpk1p Tpk2p Tpk3p DIP:2049N Mrs6p Ypt7p Ypt1p DIP:1728N DIP:1822N DIP:1823N Pep12p Sec4p Vps21p Yip1p Ypt10p Ypt11p Ypt31p Ypt32p Ypt52p Ypt53p Yif1p Ypt6p Dss4p Gdi1p Tlg1p Yip3p 
+34: Yck1p Akr1p Yck2p DIP:1773N 
+35: DIP:1989N Oca1p Siw14p 
+36: Ras1p Mek1p DIP:518N 
+37: Pwp2p DIP:5248N DIP:6417N 
+38: Tor1p Dal81p Dal82p 
+39: Mec3p Ddc1p Rad17p 
+40: Tef2p Tef4p Efb1p 
+41: Act1p Arp4p Esa1p Nhp10p Tra1p Epl1p Eaf3p Vid21p Yng2p 
+42: Ero1p Erv41p Erv46p 
+43: Sec3p Exo84p Sec5p 
+44: Gim3p Pac10p Tub4p Gim4p Gim5p Yke2p 
+45: Gpb1p Gpa2p Gpb2p Gpg1p 
+46: Hap2p Hap5p Hap3p 
+47: Ckb2p Sua7p Prt1p eIF4G1 Rpg1p Nip1p Tif35p Tif5p Hat1p Hcr1p Rli1p Sui1p Tif34p eIF4G2 Pci8p 
+48: Hmg1p Hrd1p Hrd3p Hmg2p 
+49: Hpr1p Mft1p Rlr1p 
+50: Ub Hse1p Vps27p 
+51: Hst1p Rfm1p Sum1p 
+52: Rtg3p Ino4p Rtg1p 
+53: Trf4p Cdc5p Mcd1p Smc1p Smc3p Eco1p Irr1p Scc2p Kar5p Smc2p Tid3p 
+54: Kgd2p Kgd1p Ymr31p 
+55: Mak10p Mak31p Mak3p 
+56: Mas6p Tim13p Tim8p 
+57: Rad51p Rfa2p Rfa1p Msh6p Mgm101p Mph1p Rad52p 
+58: Msh2p Exo1p Mlh1p Pms1p 
+59: Msh6p Sgs1p Top3p 
+60: Nmd2p Nam7p Ski7p Upf3p 
+61: Nop1p Nop58p Spb1p 
+62: Rri1p Pci8p Rri2p 
+63: Ubc13p Rad18p Rad5p 
+64: Rap1p Rif2p Rif1p 
+65: Ypt6p Rgp1p Ric1p 
+66: Sml1p Rnr1p Rnr3p 
+67: Sec22p Sec20p Ufe1p 
+68: Sec63p Sec66p Sec72p 
+69: Srp1p Snz3p Sno1p Snz1p Snz2p Sno2p Sno3p 
+70: Spc110p Spc72p Tub4p Spc97p Spc98p Stu2p 
+71: Srp54p Srp14p Srp21p 
+72: Tps1p Tps2p Tps3p Tsl1p 
+73: Vma6p Skp1p Vma22p Tfp1p Vma4p Vma8p Vma13p Rav1p Rav2p Vma2p Stv1p Vma10p Vma5p Vma7p Vph1p Vph2p 
+74: Rpp2bp Rpl12ap Rpp1bp 
+75: Ady3p Cnm67p Nud1p Spc42p 
+76: Akr1p Ste18p Ste4p Ste5p 
+77: Anp1p Hoc1p Mnn10p Mnn11p 
+78: Apg12p Apg7p Aut1p Aut7p 
+79: Apg17p Ipi2p Ipi3p 
+80: Apl2p Apl4p Apm1p Apm2p Aps1p 
+81: Tub1p Aut2p Tub2p 
+82: TBP Bdp1p Brf1p Tfc4p 
+83: Srp1p Car2p Nma1p Nma2p 
+84: Slt2p Smk1p Gal7p Qcr2p 
+85: Ccl1p Kin28p Tfb3p 
+86: Cdc28p Tos2p Pkc1p 
+87: Cdc25p Cyr1p Ras1p Ras2p 
+88: Gcn2p Ppt1p Ste11p Hsp82p Cdc37p Cpr7p Sti1p Cns1p Hsc82p Hsp104p Cpr6p Sba1p Ppg1p 
+89: Prp8p Cct5p Prp43p Cef1p Prp46p Yju2p Cdc40p Prp45p Clf1p Cwc23p Cwc2p Ecm2p Isy1p Prp19p Prp22p Snt309p Syf1p Syf2p Ntc20p Smx3p 
+90: Cdc47p Mcm3p Cdc45p Mcm2p Cdc46p Dna43p 
+91: Cdc48p Npl4p Ufd1p 
+92: eIF4A eIF4G1 Fun11p 
+93: Cna1p Crz1p Skn7p 
+94: Mre11p Rad50p Xrs2p 
+95: Tfb1p Cvt19p Lap4p 
+96: Tup1p Cyc8p Hmra2p Sko1p 
+97: Mas6p Tim17p Mdj1p Ssc1p Tim44p Mge1p 
+98: Spt5p Psy2p Pph3p DIP:4295N 
+99: Rpo21p Hrp1p Pab1p Glc7p Swd2p Hca4p Pfs2p Cft1p Cft2p Clp1p Fip1p Mpe1p Pap1p Pcf11p Pta1p Pti1p Rna14p Ysh1p Yth1p Ref2p Ssu72p Rna15p DIP:6797N 
+100: Dal80p Gzf3p Hda1p Tor1p 
+101: Nup42p Nup159p Dbp5p Gfd1p Gle1p 
+102: Dpb2p Dpb4p Pol2p 
+103: Elp6p Elp2p Elp3p Elp4p Iki1p Iki3p Kti12p 
+104: Exo84p Sec10p Sec8p 
+105: Fpr1p Tfb1p Ssl1p 
+106: Tor2p Tor1p Gln3p Ure2p 
+107: Hhf1p Hat1p Hat2p Hif1p 
+108: Ume6p Rim11p Ime1p 
+109: Snf1p Prb1p Ypk2p 
+110: Lst8p Tor1p Kog1p Tco89p 
+111: SmD3 Snu23p Prp38p 
+112: Mas6p Pet9p Mrs11p Tim9p 
+113: Mrs11p Mrs5p Tim22p Tim54p Tim18p 
+114: Msh2p Msh6p Pol30p Msh3p 
+115: Sec1p Sec9p Sso1p 
+116: Pbs2p Nbp2p Ptc1p 
+117: Pep8p Vps17p Vps29p Vps35p Vps5p 
+118: Tim17p Tom20p Tom22p Tom40p 
+119: Pho85p Pcl7p Pho81p Pho80p 
+120: Pop2p Pol1p Pol2p Pol12p Pri1p 
+121: Rim11p Prs2p Prs5p 
+122: Sen2p Sen15p Sen34p Sen54p 
+123: Spc42p Spc29p Spc110p 
+124: Aos1p Smt3p Uba2p 
+125: Uba2p Ufd1p Pap1p 
+126: App1p Hsl7p Swe1p 
+127: Cdc28p Swi5p Pho2p 
+128: Asf1p Sas2p Sas4p Sas5p Rlf2p 
+129: Tem1p Bfa1p Bub2p Cdc14p 
+130: Glc7p Gip2p Gsy2p Gac1p Gip1p 
+131: Mlh2p Mlh1p Pol30p 
+132: Kss1p Sst2p Mpt5p 
+133: Yck1p Dun1p Sod1p 
+134: Snf5p Hir1p Hir2p Snf2p Swi3p 
+135: Cka2p Sit4p Hrr25p Sap185p Sap190p 
+136: Hta1p Nap1p Htb2p Kap114p 
+137: Ypt6p Luv1p Sac2p Tlg1p Vps53p Vps67p 
+138: Yra1p Pse1p Mex67p Yra2p 
+139: Rad3p Rad1p Msh2p Rad10p Rad14p Ssl2p 
+140: Prp11p SmD1 Prp21p Prp9p 
+141: Rad16p Rad14p Rad7p 
+142: Cbf2p Skp1p Cbf1p Cep3p Ctf13p Hsp82p 
+143: Cbf2p Cep3p Mcm21p Ctf19p Okp1p 
+144: Cdc28p Dbf2p Mob1p Dbf20p 
+145: Sit4p Cct6p Tap42p 
+146: Sir2p Cdc14p Net1p 
+147: Cdc7p Dbf4p Mcm2p 
+148: Mcm1p Hmra2p Ste12p Mat1a 
+149: Kss1p Cln2p Cln1p Dig1p Dig2p Fus3p Ste12p 
+150: Ste50p Ste5p Kss1p Ste11p Fus3p Gpa1p Ste7p 
+151: Gcn3p Vma8p Gcd7p Sui2p Gcd11p Gcd1p Gcd6p Gcd2p Sui3p 
+152: Aro1p Gfa1p Rad51p 
+153: Asc1p Bud14p Kin3p Zuo1p Ssz1p 
+154: Bre2p Sdc1p Set1p Shg1p Spp1p Swd1p Swd2p Swd3p 
+155: Met30p Met4p Ub 
+156: Cdc28p Cdc6p Orc1p Orc6p Orc2p Orc3p Orc4p Orc5p 
+157: Npl3p Sgn1p Pub1p 
+158: DIP:1765N Zds1p Cpr1p Hos2p Hst1p Sif2p Snt1p Set3p 
+159: Ser3p DIP:5365N Gts1p 
+160: Cdc25p Hsp82p Ssa1p Ssa2p 
+161: Rvs167p Lys12p Ura7p Pse1p 
+162: Pkc1p Ost1p Ost2p Ost3p Ost4p Ost5p Stt3p Swp1p Wbp1p 
+163: Ste11p Pbs2p Hog1p 
+164: Rpo21p Tfb1p Rad23p Rad14p 
+165: Sup45p Sup35p Nam7p 
+166: Rpc40p Sec27p Cdc7p Dhh1p 

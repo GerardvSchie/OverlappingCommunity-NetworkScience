@@ -1,0 +1,55 @@
+# The communities at k=5
+# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
+# at no lower link weight threshold,
+# and at no upper link weight threshold.
+# Links were treated as undirected.
+# No time limit was set for the clique search.
+
+0: Abf1p Cka1p Cka2p Ckb1p Ckb2p 
+1: Atp1p Atp2p Atp17p Atp18p Atp4p Atp6p Atp7p Atp5p 
+2: Rfc2p Rfc4p Ctf18p Ctf8p Rfc3p Rfc5p Elg1p Pol30p 
+3: Snf5p Hir1p Hir2p Snf2p Swi3p 
+4: Ypt6p Luv1p Sac2p Vps53p Vps67p 
+5: Ada2p Hfi1p Ngg1p Spt20p Spt7p 
+6: Arp2p Arp3p Arc15p Arc18p Arc35p Arc40p 
+7: Cop1p Bet1p Bos1p Sec21p Sec22p Ret2p Ret3p Sec26p Sec27p Sec28p 
+8: Shs1p Cdc12p Cdc11p Bni5p Cdc10p Cdc3p Gin4p Kcc4p 
+9: Hrt1p Skp1p Cdc34p Cdc4p Cdc53p 
+10: Spt5p Cdc73p Ctr9p Leo1p Paf1p Rtf1p 
+11: Cef1p Clf1p Isy1p Prp19p Snt309p Syf1p Syf2p 
+12: Rpc40p Rpo31p Rpc34p Rpc37p Rpc53p 
+13: Rpt3p Rpt1p Rpn9p Rpt5p Rpn1p Rpn11p Rpn5p Rpt4p Rad23p Rpt6p DIP:6617N Nas6p Rpt2p Rpn12p Ecm29p Rpn10p Rpn6p Rpn8p Pre1p Pre5p Rpn13p Rpn3p Rpn7p 
+14: Dis3p Rrp45p Rrp43p Rrp4p Ski6p 
+15: Elp6p Elp2p Elp3p Elp4p Iki1p Iki3p 
+16: Gcn3p Gcd7p Sui2p Gcd11p Gcd1p Gcd6p Gcd2p Sui3p 
+17: Vam3p Nyv1p Ykt6p Sec17p Vam7p Vti1p 
+18: Cdc16p Apc11p Apc1p Apc2p Apc4p Apc5p Apc9p Cdc23p Cdc26p Cdc27p Doc1p 
+19: Arp2p Arp3p Myo5p Arc19p Arc40p Myo3p 
+20: Bre2p Sdc1p Set1p Shg1p Spp1p Swd1p Swd2p Swd3p 
+21: Cdc6p Orc1p Orc6p Orc2p Orc3p Orc4p Orc5p 
+22: DIP:1765N Zds1p Cpr1p Hos2p Hst1p Sif2p Snt1p Set3p 
+23: Rpo21p Rpb2p Rpb3p Iki3p Rpb4p Rpb5p 
+24: Prp4p Lsm8p Lsm3p SmD3 SmD2 Dhh1p Lsm1p Lsm4p Dcp2p Lsm5p Lsm7p Dcp1p Lsm2p Lsm6p Pat1p Prp24p 
+25: Pex5p Pex7p Pex13p Pex14p Pex17p 
+26: Skp1p Tfp1p Rav1p Rav2p Vma2p 
+27: Skp1p Vma4p Vma8p Rav1p Rav2p 
+28: Pre3p Pre4p Pre8p Scl1p Pph22p Rpn5p Pre10p Rpn10p Pup3p Pre1p Pre6p Pre2p Pre5p Pre9p 
+29: Pwp2p Krr1p Utp7p Utp15p Utp10p 
+30: Sec23p Sec24p Sec31p Erv25p Emp24p 
+31: Ada2p Adr1p Gcn4p Ngg1p Spt7p Srb2p Srb4p TBP Taf1p Taf5p Taf6p Taf9p Taf10p Not5p Taf12p 
+32: Ost1p Ost2p Ost3p Ost4p Ost5p Stt3p Swp1p Wbp1p 
+33: Myo5p Rvs167p Las17p Vrp1p Myo3p 
+34: Cdc36p Caf130p Caf40p Ccr4p Cdc39p Mot2p Not3p Not5p Pop2p Ssn2p Caf4p Ssn3p Ssn8p 
+35: Zds2p Cdc55p Pph22p Tpd3p Zds1p 
+36: Swd2p Pfs2p Cft1p Cft2p Clp1p Fip1p Mpe1p Pap1p Pcf11p Pta1p Pti1p Rna14p Ysh1p Yth1p Ref2p 
+37: Gal4p Srb2p Srb4p Ssn3p Med7p Gal11p Med8p Srb5p Srb6p 
+38: Prp8p Prp6p Prp4p Lsm8p Lsm3p Smx2p Brr2p Nog2p SmD3 Snu66p Prp31p Prp3p 
+39: Arp4p Hhf1p Hht1p Hta1p Htb1p Sir3p 
+40: Srp1p Nup100p Kap95p Gsp1p Nup116p Nup2p Nup60p Ntf2p 
+41: Bet1p Bos1p Sec23p Sec24p Sed5p 
+42: Cka1p Nop4p Nop15p Erb1p Mak21p Cic1p Nop7p Nug1p Tif6p Has1p Ytm1p 
+43: Nup49p Nup57p Pse1p Nsp1p Nic96p 
+44: Nup145p Nup49p Nup57p Msn5p Nup84p 
+45: Abp1p App1p Rvs167p Sla1p Ysc84p 
+46: Kap95p Nup145p Nup49p Nup57p Pse1p 
+47: Srp1p Kap95p Nup49p Nup57p Nup2p 
