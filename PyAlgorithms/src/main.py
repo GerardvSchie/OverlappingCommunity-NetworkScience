@@ -18,7 +18,10 @@ if __name__ == '__main__':
     path = os.path.join(result_dir, "edges.dat")
     G = benchmark.read_graph(path, weighted=True)
 
-    # run_oslom(path)
+    # OSLOM
+    # algorithm.run_oslom(path)
+    utils.copy_without_comments(os.path.join("../networks", graph_name + ".nse_oslo_files", "tp"),
+                                os.path.join(result_dir, "oslom.dat"))
 
     # Sanity check that it has been read
     # print("Degree distribution:")
@@ -26,15 +29,19 @@ if __name__ == '__main__':
     #
     # # Detect communities on karate club network
     # KarateGraph = nx.karate_club_graph()
-    demon_communities = algorithm.run_demon(G)
-    utils.communities_to_file(result_dir, demon_communities, "demon")
+    # demon_communities = algorithm.run_demon(G)
+    # utils.communities_to_file(result_dir, demon_communities, "demon")
 
-    # NMI score
-    # nmi_score = measure.get_nmi_score(graph_name, "demon.dat", "communities.dat")
+    # Compute measures
+    # nmi_score = measure.get_nmi_score(graph_name, "demon")
     # print("NMI score demon and GT: " + str(nmi_score))
 
-    measure.get_omega_score(result_dir, "demon")
-    measure.get_average_f1_score(result_dir, "demon")
+    print("NMI:" + str(measure.get_nmi_score(graph_name, "demon")))
+    print("Omega:" + str(measure.get_omega_score(result_dir, "demon")))
+    print("Avg F1: " + str(measure.get_average_f1_score(result_dir, "demon")))
+
+    # measure.get_omega_score(result_dir, "oslom")
+    # measure.get_average_f1_score(result_dir, "oslom")
     #
     # # Visualize the network
     # visual_graph(G)

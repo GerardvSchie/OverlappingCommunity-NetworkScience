@@ -9,7 +9,7 @@ def copy_without_comments(in_path, res_path):
             for line in file:
                 if line.startswith('#'):
                     continue  # skip comments
-                res_path.write(line)
+                res_file.write(line)
 
 
 def create_results_dir(res_dir_path):

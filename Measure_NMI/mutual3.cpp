@@ -63,7 +63,9 @@ int main(int argc, char * argv[]) {
 		
 	get_partition_from_file(file1, one);
 	get_partition_from_file(file2, two);
-			
+
+	cout << "mutual3:\t" << mutual3(one, two) << endl;
+
 	return 0;
 }
 

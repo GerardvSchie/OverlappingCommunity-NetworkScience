@@ -23,16 +23,17 @@ NMI_BIN = os.path.abspath("../../Measure_NMI/x64/Debug")
 #     return result
 
 
-# Create the graph using LFR-benchmark
-def get_nmi_score(graph_name, file1: str, file2: str) -> float:
+# Compute the NMI score
+# https://sites.google.com/site/andrealancichinetti/mutual
+def get_nmi_score(graph_name, output_name: str) -> float:
     command = [
         os.path.join(NMI_BIN, "NMI_Measure.exe"),
-        f"../networks/{graph_name}_results/{file1}",
-        f"../networks/{graph_name}_results/{file1}"
+        f"../networks/{graph_name}_results/communities.dat",
+        f"../networks/{graph_name}_results/{output_name}.dat"
     ]
 
     # Run the program that gets the NMI score
-    process_result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE)
+    process_result = subprocess.run(command, shell=False, capture_output=True, check=True)
     result_string = process_result.stdout.decode()
 
     # Retrieve it from the string and give it
@@ -45,9 +46,7 @@ def get_omega_score(results_dir:str, algo_output_name):
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     o = omega_index_py3.Omega(output, ground_truth)
-    omega = o.omega_score
-    print("Omega: " + str(omega))
-    return omega
+    return o.omega_score
 
 
 def get_average_f1_score(results_dir:str, algo_output_name):
@@ -59,10 +58,7 @@ def get_average_f1_score(results_dir:str, algo_output_name):
     results = nf.summary()
 
     # print(results['scores'])
-    details = results['details']
-    print(details)
     nf1 = results['details']['F1 mean'][0]
-    print("NF1 score: " + str(nf1))
     return nf1
 
     # Visualising the Precision-Recall density scatter-plot
