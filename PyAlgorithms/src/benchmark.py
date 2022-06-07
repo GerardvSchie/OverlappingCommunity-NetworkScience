@@ -27,7 +27,7 @@ def create_graph(N:int, k:int, maxk:int, muw:float, minc:int, maxc:int, name:str
 
     # Copy over communities and edges file
     shutil.copyfile(filename + ".cnl", os.path.join(result_dir, "communities.dat"))
-    utils.copy_without_comments(os.path.join(result_dir, "edges.dat"), os.path.abspath(filename) + ".nse")
+    utils.copy_without_comments(os.path.abspath(filename) + ".nse", os.path.join(result_dir, "edges.dat"))
 
 
 def read_graph(edges_path, weighted=False):

@@ -22,7 +22,8 @@ def create_results_dir(res_dir_path):
 def read_file(file_path) -> [str]:
     lines = []
     with open(file_path, "r") as file:
-        while line := file.readline().rstrip():
+        line = file.readline().rstrip()
+        while line:
             lines.append(line)
     return lines
 
