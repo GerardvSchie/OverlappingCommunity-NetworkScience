@@ -1,6 +1,8 @@
 import os
 import subprocess
 import demon as d
+import networkx as nx
+import lib.weighted_weak_communities
 
 OSLOM_BIN = os.path.abspath("../../Algo_Oslom/x64/Debug")
 CFINDER_BIN = os.path.abspath("../../Algo_CFinder")
@@ -12,7 +14,7 @@ def run_demon(G):
     return coms
 
 
-def run_oslom(path, weighted=False):
+def run_oslom(path: str, weighted=False):
     weightedArg = None
     if weighted:
         weightedArg = "-w"
@@ -39,3 +41,13 @@ def run_cfinder(path):
         "-l", os.path.join(CFINDER_BIN, "licence.txt")
     ]
     subprocess.run(command, shell=True, check=True)
+
+
+def run_wnw(G, args):
+    if nx.is_directed(G):
+        return None
+    else:
+        comms = lib.weighted_weak_communities.weighted_weak_communities(G)
+    print(comms)
+    return None
+

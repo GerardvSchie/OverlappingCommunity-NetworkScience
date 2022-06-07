@@ -26,12 +26,40 @@ Contains small karate club example using the Demon package.
 CFinder, DEMON, and OSLOM package should be able to be called from python code itself.
 Sofar it is only a `main.py` that can be ran. requirements.txt should contain the packages that are necessary.
 
-### DEMON algorithm
+### Algorithms
+
+#### DEMON algorithm
 
 Link to the package repo. The README there should give sufficient instructions to run the python code.
 https://github.com/GiulioRossetti/DEMON
 
-### OSLOM algorithm
+#### OSLOM algorithm
 
-Still work in progress. The c++ code compiles and example can be ran (executable needs to be environment variables somewhere so python package can find it).
-This is not yet configured
+#### Other
+NDOCD something.. Modified 2020: https://github.com/MakowToms/GiS/tree/master/NDOCD
+SNARS-NDOCD modified 2022: https://github.com/pysiakk/snars-ndocd
+
+NOCD: Good paper: 
+https://link-springer-com.proxy.library.uu.nl/article/10.1007/s12652-022-03774-4
+Source: https://figshare.com/s/30894e4172505d5dc070
+#### LEMON
+LPython project
+https://github.com/RapidsAtHKUST/CommunityDetectionCodes/tree/master/Algorithms/2015-LEMON
+
+### Measures
+
+### NMI score
+
+This is a c++ package that needs to get compiled. The executable can then be called by the python code.
+
+### Omega-Index
+
+Package form PyPi to compute the omega index.
+Same API as: https://github.com/isaranto/omega_index
+
+### Average F1-score
+
+Computes the average f1 score and the deviation.
+
+The source code of the python package is here:
+https://github.com/GiulioRossetti/f1-communities

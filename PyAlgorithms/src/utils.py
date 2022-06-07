@@ -3,23 +3,24 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-def copy_without_comments(in_path, res_path):
+def copy_without_comments(in_path: str, res_path: str):
     with open(res_path, "w") as res_file:
         with open(in_path, "r") as file:
             for line in file:
+                # Comment
                 if line.startswith('#'):
-                    continue  # skip comments
+                    continue
                 res_file.write(line)
 
 
-def create_results_dir(res_dir_path):
+def create_results_dir(res_dir_path: str):
     exists = os.path.exists(res_dir_path)
     if not exists:
         os.makedirs(res_dir_path)
 
 
 # Reads the file content and returns it
-def read_file(file_path) -> [str]:
+def read_file(file_path: str) -> [str]:
     lines = []
     with open(file_path, "r") as file:
         line = file.readline().rstrip()
@@ -33,7 +34,7 @@ def visual_graph(G):
     plt.show()
 
 
-def communities_to_file(result_dir, communities, name):
+def communities_to_file(result_dir: str, communities: [int], name: str) -> None:
     result_file = os.path.join(result_dir, name + ".dat")
     with open(result_file, "w") as file:
         for community in communities:
@@ -42,12 +43,13 @@ def communities_to_file(result_dir, communities, name):
             file.write("\n")
 
 
-def communities_from_file(result_dir:str, name:str) -> dict[[str]]:
+def communities_from_file(result_dir: str, name: str) -> dict[[str]]:
     # Get file and init resulting dict
     print()
     result_file = os.path.join(result_dir, name + ".dat")
     communities = dict()
     index = 1
+
     # Read the file
     with open(result_file, "r") as file:
         for line in file.readlines():

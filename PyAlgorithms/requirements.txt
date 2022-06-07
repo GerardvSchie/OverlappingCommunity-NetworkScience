@@ -7,3 +7,6 @@ scipy
 omega-index-py3==0.3.1
 # https://github.com/GiulioRossetti/f1-communities
 nf1
+
+# Util installed on own pc
+# nbconvert
