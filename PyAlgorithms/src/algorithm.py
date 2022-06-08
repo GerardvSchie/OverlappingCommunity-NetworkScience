@@ -2,7 +2,7 @@ import os
 import subprocess
 import demon as d
 import networkx as nx
-import lib.weighted_weak_communities
+import external.weighted_weak_communities
 
 OSLOM_BIN = os.path.abspath("../../Algo_Oslom/x64/Debug")
 CFINDER_BIN = os.path.abspath("../../Algo_CFinder")
@@ -47,7 +47,7 @@ def run_wnw(G):
     if nx.is_directed(G):
         return None
     else:
-        comms_sets = lib.weighted_weak_communities.weighted_weak_communities(G)
+        comms_sets = external.weighted_weak_communities.weighted_weak_communities(G)
 
     # Convert to lists
     communities = []
