@@ -14,7 +14,12 @@ def test_method(result_dir, name) -> None:
     # Read the graph from the generated edge file into nx graph
     path = os.path.join(result_dir, "edges.dat")
     G = benchmark.read_graph(path, weighted=True)
-    algorithm.run_wnw(G, None)
+
+    # WNW
+    wnw_communities = algorithm.run_wnw(G)
+    utils.communities_to_file(result_dir, wnw_communities, "wnw")
+    get_scores(result_dir, name, "wnw")
+
     # DEMON
     # demon_communities = algorithm.run_demon(G)
     # utils.communities_to_file(result_dir, demon_communities, "demon")

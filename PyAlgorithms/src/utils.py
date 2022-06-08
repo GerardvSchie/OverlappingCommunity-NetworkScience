@@ -44,7 +44,6 @@ def communities_to_file(result_dir: str, communities: [int], name: str) -> None:
 
 def communities_from_file(result_dir: str, name: str) -> dict[[str]]:
     # Get file and init resulting dict
-    print()
     result_file = os.path.join(result_dir, name + ".dat")
     communities = dict()
     index = 1

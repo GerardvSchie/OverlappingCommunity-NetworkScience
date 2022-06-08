@@ -43,11 +43,14 @@ def run_cfinder(path):
     subprocess.run(command, shell=True, check=True)
 
 
-def run_wnw(G, args):
+def run_wnw(G):
     if nx.is_directed(G):
         return None
     else:
-        comms = lib.weighted_weak_communities.weighted_weak_communities(G)
-    print(comms)
-    return None
+        comms_sets = lib.weighted_weak_communities.weighted_weak_communities(G)
 
+    # Convert to lists
+    communities = []
+    for comm in comms_sets:
+        communities.append(list(comm))
+    return communities
