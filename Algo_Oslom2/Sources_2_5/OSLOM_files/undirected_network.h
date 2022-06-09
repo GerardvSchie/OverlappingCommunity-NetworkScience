@@ -317,7 +317,7 @@ bool static_network::set_graph(string file_name) {
 	clear();
 	
 	
-	char (*b) = new char[file_name.size() + 1];
+	char b[file_name.size()+1];
 	cast_string_to_char(file_name, b);
 	
 	
@@ -537,7 +537,7 @@ bool static_network::set_graph(string file_name) {
 	if(paras.weighted)
 		set_proper_weights();
 
-	delete[] b;
+	
 	
 	return good_file;
 	
@@ -696,7 +696,7 @@ int static_network::draw(string file_name) {
 	
 		int h= file_name.size();
 		
-		char (*b) = new char[h+1];
+		char b[h+1];
 		for (int i=0; i<h; i++)
 			b[i]=file_name[i];
 		b[h]='\0';
@@ -721,7 +721,7 @@ int static_network::draw(string file_name) {
 		
 		}
 		
-	delete[] b;
+		
 	return 0;
 
 }
@@ -1221,7 +1221,7 @@ int static_network::draw_with_weight_probability(string file_name) {
 
 	int h= file_name.size();
 	
-	char (*b) = new char[h+1];
+	char b[h+1];
 	for (int i=0; i<h; i++)
 		b[i]=file_name[i];
 	b[h]='\0';
@@ -1242,7 +1242,7 @@ int static_network::draw_with_weight_probability(string file_name) {
 	
 		
 	
-	delete[] b;
+	
 	return 0;
 
 }

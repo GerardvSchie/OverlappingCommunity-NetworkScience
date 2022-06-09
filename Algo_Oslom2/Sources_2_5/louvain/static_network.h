@@ -56,8 +56,8 @@ int parse_command_line(bool & value, string & s, string & s2, int argc, char * a
 	
 	_arg_++;
 	
-
-	if (argv[_arg_]!='\0')
+  // CHANGED FOR C++ COMPILER
+	if (argv[_arg_]!="")
 		s2 = argv[_arg_];
 	else
 		return 0;
