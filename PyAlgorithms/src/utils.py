@@ -13,19 +13,17 @@ def copy_without_comments(in_path: str, res_path: str):
                 res_file.write(line)
 
 
-def create_results_dir(res_dir_path: str):
-    exists = os.path.exists(res_dir_path)
+def create_dir(dir_path: str):
+    exists = os.path.exists(dir_path)
     if not exists:
-        os.makedirs(res_dir_path)
+        os.makedirs(dir_path)
 
 
 # Reads the file content and returns it
 def read_file(file_path: str) -> [str]:
-    lines = []
     with open(file_path, "r") as file:
-        line = file.readline().rstrip()
-        while line:
-            lines.append(line)
+        lines = file.readlines()
+        lines = [line.strip() for line in lines]
     return lines
 
 

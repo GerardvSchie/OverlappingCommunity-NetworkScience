@@ -12,8 +12,8 @@ NMI_BIN = os.path.abspath("../../Measure_NMI/x64/Debug")
 def get_nmi_score(graph_name: str, output_name: str) -> float:
     command = [
         os.path.join(NMI_BIN, "NMI_Measure.exe"),
-        f"../networks/{graph_name}_results/communities.dat",
-        f"../networks/{graph_name}_results/{output_name}.dat"
+        f"../networks/{graph_name}/results/communities.dat",
+        f"../networks/{graph_name}/results/{output_name}.dat"
     ]
 
     # Run the program that gets the NMI score

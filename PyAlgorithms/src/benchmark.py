@@ -1,3 +1,7 @@
+# Examples of LFR parameters:
+# https://www.researchgate.net/publication/277659058_A_Stochastic_Model_for_Detecting_Overlapping_and_Hierarchical_Community_Structure
+# https://www.ijsr.net/archive/v3i8/MDIwMTU2MTY=.pdf
+
 import os
 import subprocess
 import shutil
@@ -9,19 +13,28 @@ LFR_BIN = os.path.abspath("../../Benchmark_LFR/x64/Debug")
 
 
 # Create the graph using LFR-benchmark
-def create_graph(N:int, k:int, maxk:int, muw:float, minc:int, maxc:int, name:str, result_dir:str):
-    filename = os.path.join("../networks", str(name))
+# k=20, kmax 50, cmin 20, cmax 100, tow1 -2, tow2 = -1, mixing = 0.4 Om=2, nr overlapping nodes = On/n
+# n = 1000-10000 dn=1000 Om=1-8 dOm=1 On/n 0.1-0.6 dOn/n=0.1
+def create_graph(N:int, k:int, maxk:int, mixing_topology:float, mixing_weights:float, tow1:float, tow2:float, minc:int, maxc:int, on:int, om:int, name:str, result_dir:str):
+    filename = os.path.join("../networks", str(name), str(name))
+    seed_path = os.path.join("..", "seed.txt")
     command = [
         os.path.join(LFR_BIN, "LFR-Benchmark.exe"),
         "-N", str(N),
         "-k", str(k),
         "-maxk", str(maxk),
-        "-muw", str(muw),
+        "-mut", str(mixing_topology),
+        "-muw", str(mixing_weights),
+        "-t1", str(tow1),
+        "-t2", str(tow2),
         "-minc", str(minc),
         "-maxc", str(maxc),
+        "-on", str(on),
+        "-om", str(om),
         "-cnl", "1",
-        # Put file in networks folder
-        "-name", filename
+        # Put file in networks folder and use fixed seed
+        "-name", filename,
+        "-seed", seed_path
     ]
     subprocess.run(command, shell=True, check=True)
 
