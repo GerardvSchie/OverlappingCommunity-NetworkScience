@@ -34,12 +34,13 @@ Link to the package repo. The README there should give sufficient instructions t
 https://github.com/GiulioRossetti/DEMON
 
 #### OSLOM algorithm
+As in the instructions compile_all.sh should build all the necessary files
 
 #### Other
 NDOCD something.. Modified 2020: https://github.com/MakowToms/GiS/tree/master/NDOCD
 SNARS-NDOCD modified 2022: https://github.com/pysiakk/snars-ndocd
 
-NOCD: Good paper: 
+NOCD: Good paper:
 https://link-springer-com.proxy.library.uu.nl/article/10.1007/s12652-022-03774-4
 Source: https://figshare.com/s/30894e4172505d5dc070
 #### LEMON

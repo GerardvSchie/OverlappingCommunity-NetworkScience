@@ -11,7 +11,7 @@ import external.weighted_weak_communities
 
 OSLOM_BIN = os.path.abspath("../../Algo_Oslom/x64/Debug")
 CFINDER_BIN = os.path.abspath("../../Algo_CFinder")
-OSLOM2_BIN = os.path.abspath("../../Algo_OSLOM2/Sources_2_5/x64/Debug")
+OSLOM2_BIN = os.path.abspath("../../Algo_Oslom2/oslom_undir")
 
 
 def run_demon(G):
@@ -49,7 +49,7 @@ def run_oslom2(path: str, weighted=False):
 
     # OSLOM -f example.dat -uw -time 0.005 -infomap 3 -copra 2 -louvain 1
     command = [
-        os.path.join(OSLOM2_BIN, "OSLOM2.exe"),
+        OSLOM2_BIN,
         "-f", path,
         weighted_flag,
         # "-t", "0.005",

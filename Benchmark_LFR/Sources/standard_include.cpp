@@ -1,5 +1,5 @@
 #if !defined(STANDARD_INCLUDE_INCLUDED)
-#define STANDARD_INCLUDE_INCLUDED	
+#define STANDARD_INCLUDE_INCLUDED
 
 
 #include <math.h>
@@ -8,7 +8,7 @@
 #include <set>
 #include <vector>
 #include <map>
-#include <string> 
+#include <string>
 #include <fstream>
 #include <ctime>
 #include <iterator>

@@ -1,7 +1,0 @@
-I used Visual Studio 2022
-Open developer powershell
-
-cl .\Sources\benchm.cpp
-./LFRbenchmark.exe -N 1000 -k 15 -maxk 50 -muw 0.1 -minc 20 -maxc 50 -cnl 1
-
-And then the network files will be created, with *.dat extensions.

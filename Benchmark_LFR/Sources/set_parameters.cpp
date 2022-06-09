@@ -5,14 +5,14 @@
 
 
 class Parameters {
-	
-	
+
+
 	public:
-	
+
 		Parameters();
-		
+
 		~Parameters(){};
-		
+
 		int num_nodes;
 		double average_k;
 		int max_degree;
@@ -38,50 +38,50 @@ class Parameters {
 		string fnameCommunity;
 		string fnameStatistics;
 		string fnameSeed;
-		
-		
+
+
 		bool set(string &, string &);
 		void set_random();
 		bool arrange();
 		deque<string> command_flags;
-	
-	
+
+
 
 
 
 };
 
 Parameters::Parameters() {
-			
-			
+
+
 		num_nodes=unlikely;
 		average_k=unlikely;
 		max_degree=unlikely;
-		
+
 		tau=2;
 		tau2=1;
-		
+
 		mixing_parameter=unlikely;
 		mixing_parameter2=unlikely;
-		
+
 		beta=1.5;
-		
+
 		overlapping_nodes=0;
 		overlap_membership=0;
-		
+
 		nmin=unlikely;
 		nmax=unlikely;
-		
+
 		randomf=false;
 		fixed_range=false;
 		excess=false;
 		defect=false;
 
 		clustering_coeff=unlikely;
-		
+
 		directed = false;
 		cnodes = false;
-		
+
 		fnameNetwork = "network.dat";
 		fnameCommunity = "community.dat";
 		fnameStatistics = "statistics.dat";
@@ -105,8 +105,8 @@ Parameters::Parameters() {
 		command_flags.push_back("-a");			//14
 		command_flags.push_back("-name");		//15
 		command_flags.push_back("-seed");		//16
-			
-		
+
+
 };
 
 
@@ -120,8 +120,8 @@ void Parameters::set_random() {
 	overlap_membership=0;
 	nmax=num_nodes;
 	nmin=num_nodes;
-	
-	
+
+
 	fixed_range=true;
 	excess=false;
 	defect=false;
@@ -130,91 +130,91 @@ void Parameters::set_random() {
 
 
 bool Parameters::arrange() {
-		
-		
+
+
 	if(randomf)
 		set_random();
-	
-	
-	
+
+
+
 	if (num_nodes==unlikely) {
-	
+
 		cerr<<"\n***********************\nERROR:\t number of nodes unspecified"<<endl;
 		return false;
-	
+
 	}
 	if (average_k==unlikely) {
-	
+
 		cerr<<"\n***********************\nERROR:\t average degree unspecified"<<endl;
 		return false;
-	
+
 	}
-	
+
 	if (max_degree==unlikely) {
-	
+
 		cerr<<"\n***********************\nERROR:\t maximum degree unspecified"<<endl;
 		return false;
-	
+
 	}
-	
+
 	if (mixing_parameter2==unlikely) {
-	
+
 		cerr<<"\n***********************\nERROR:\t weight mixing parameter (option -muw) unspecified"<<endl;
 		return false;
-	
+
 	}
-	
-	
+
+
 	if(mixing_parameter==unlikely)
 		mixing_parameter=mixing_parameter2;
-	
-	
+
+
 	if(overlapping_nodes<0 || overlap_membership<0) {
-	
+
 		cerr<<"\n***********************\nERROR:\tsome positive parameters are negative"<<endl;
-		
+
 		return -1;
 
-	
+
 	}
-		
+
 	if (num_nodes<=0 || average_k<=0 || max_degree<=0 || mixing_parameter<0 || mixing_parameter2<0 || (nmax<=0 && nmax!=unlikely) || (nmin<=0 && nmin!=unlikely) ) {
-	
+
 		cerr<<"\n***********************\nERROR:\tsome positive parameters are negative"<<endl;
-		
+
 		return -1;
 
-	
+
 	}
-	
+
 	if(mixing_parameter > 1 || mixing_parameter2 > 1) {
-	
+
 		cerr<<"\n***********************\nERROR:\tmixing parameter > 1 (must be between 0 and 1)"<<endl;
-		
+
 		return -1;
 
-	
+
 	}
-	
-	
-			
+
+
+
 	if(nmax!= unlikely && nmin!=unlikely)
 		fixed_range=true;
 	else
 		fixed_range=false;
-		
-		
+
+
 	if(excess && defect) {
-		
+
 		cerr<<"\n***********************\nERROR:\tboth options -inf and -sup cannot be used at the same time"<<endl;
 		return false;
-	
+
 	}
 
 
-	
-	
-	
+
+
+
 	cout<<"\n**************************************************************"<<endl;
 	cout<<"network:\t"<<fnameNetwork<<endl;
 	cout<<"number of nodes:\t"<<num_nodes<<endl;
@@ -230,30 +230,30 @@ bool Parameters::arrange() {
 	cout<<"compact communities output format (NMI eval compatible):\t"<<cnodes<<endl;
 	if(clustering_coeff!=unlikely)
 		cout<<"Average clustering coefficient: "<<clustering_coeff<<endl;
-	
-	
+
+
 	if (fixed_range) {
 		cout<<"community size range set equal to ["<<nmin<<" , "<<nmax<<"]"<<endl;
-		
+
 		if (nmin>nmax) {
 			cerr<<"\n***********************\nERROR: INVERTED COMMUNITY SIZE BOUNDS"<<endl;
 			return false;
 		}
-		
+
 		if(nmax>num_nodes) {
 			cerr<<"\n***********************\nERROR: maxc BIGGER THAN THE NUMBER OF NODES"<<endl;
 			return false;
 		}
-			
-		
-	
+
+
+
 	}
 	cout<<"**************************************************************"<<endl<<endl;
-		
-	
 
 
-	
+
+
+
 
 
 
@@ -266,120 +266,120 @@ bool Parameters::arrange() {
 bool Parameters::set(string & flag, string & num) {
 
 	// false is something goes wrong
-	
-	
-	
+
+
+
 	cout<<"setting... "<<flag<<" "<<num<<endl;
 	double err;
 	if(flag != command_flags[15] && flag != command_flags[16]
 	&& !cast_string_to_double(num, err)) {
-				
+
 		cerr<<"\n***********************\nERROR while reading parameters (floating point cast failed)"<<endl;
 		return false;
-			
-	}	
-		
-	if (flag==command_flags[0]) {			
-				
+
+	}
+
+	if (flag==command_flags[0]) {
+
 		if (fabs(err-int (err))>1e-8) {
-				
+
 			cerr<<"\n***********************\nERROR: number of nodes must be an integer"<<endl;
 			return false;
-			
+
 		}
-		
+
 		num_nodes=cast_int(err);
-			
-			
+
+
 	}
 	else if(flag==command_flags[1]) {
-		
+
 		average_k=err;
-	
+
 	}
 	else if(flag==command_flags[2]) {
-		
+
 		max_degree=cast_int(err);
-	
+
 	}
 	else if(flag==command_flags[3]) {
-		
+
 		mixing_parameter=err;
-	
+
 	}
 	else if(flag==command_flags[11]) {
-		
+
 		mixing_parameter2=err;
-	
+
 	}
 	else if(flag==command_flags[10]) {
-		
+
 		beta=err;
-	
+
 	}
 	else if(flag==command_flags[4]) {
-		
+
 		tau=err;
-	
+
 	}
 	else if(flag==command_flags[5]) {
-		
+
 		tau2=err;
-	
+
 	}
-	
+
 	else if(flag==command_flags[6]) {
-					
+
 		if (fabs(err-int (err))>1e-8) {
-						
+
 			cerr<<"\n***********************\nERROR: the minumum community size must be an integer"<<endl;
 			return false;
-					
+
 		}
-					
+
 		nmin=cast_int(err);
 
 	}
-	
+
 	else if(flag==command_flags[7]) {
-					
+
 		if (fabs(err-int (err))>1e-8) {
-						
+
 			cerr<<"\n***********************\nERROR: the maximum community size must be an integer"<<endl;
 			return false;
-					
+
 		}
-					
+
 		nmax=cast_int(err);
 
 	}
 	else if(flag==command_flags[8]) {
-					
+
 		if (fabs(err-int (err))>1e-8) {
-						
+
 			cerr<<"\n***********************\nERROR: the number of overlapping nodes must be an integer"<<endl;
 			return false;
-					
+
 		}
-					
+
 		overlapping_nodes=cast_int(err);
 
 	}
 	else if(flag==command_flags[9]) {
-					
+
 		if (fabs(err-int (err))>1e-8) {
-						
+
 			cerr<<"\n***********************\nERROR: the number of membership of the overlapping nodes must be an integer"<<endl;
 			return false;
-					
+
 		}
-					
+
 		overlap_membership=cast_int(err);
 
 	}
 	else if(flag==command_flags[12]) {
-					
-		clustering_coeff=err;		
+
+		clustering_coeff=err;
 
 	}
 	else if(flag==command_flags[13]) {
@@ -408,16 +408,16 @@ bool Parameters::set(string & flag, string & num) {
 		fnameSeed = num;
 	}
 	else {
-				
+
 		cerr<<"\n***********************\nERROR while reading parameters: "<<flag<<" is an unknown option"<<endl;
 		return false;
-			
+
 	}
-	
-	
-	
+
+
+
 	return true;
-	
+
 
 
 }
@@ -426,18 +426,18 @@ bool Parameters::set(string & flag, string & num) {
 
 
 void statement() {
-	
+
 	cout<<"\nTo run the program type \n./benchmark [FLAG] [P]"<<endl;
-	
+
 	cout<<"\n----------------------\n"<<endl;
 	cout<<"To set the parameters, type:"<<endl<<endl;
-	
+
 	cout<<"-N\t\t[number of nodes]"<<endl;
 	cout<<"-k\t\t[average degree]"<<endl;
 	cout<<"-maxk\t\t[maximum degree]"<<endl;
-	cout<<"-mut\t\t[mixing parameter for the topology]"<<endl;	
-	cout<<"-muw\t\t[mixing parameter for the weights]"<<endl;	
-	cout<<"-beta\t\t[exponent for the weight distribution]"<<endl;	
+	cout<<"-mut\t\t[mixing parameter for the topology]"<<endl;
+	cout<<"-muw\t\t[mixing parameter for the weights]"<<endl;
+	cout<<"-beta\t\t[exponent for the weight distribution]"<<endl;
 	cout<<"-t1\t\t[minus exponent for the degree sequence]"<<endl;
 	cout<<"-t2\t\t[minus exponent for the community size distribution]"<<endl;
 	cout<<"-minc\t\t[minimum for the community sizes]"<<endl;
@@ -465,16 +465,16 @@ void statement() {
 	cout<<"t1=2, t2=1, on=0, om=0, beta=1.5, mut=muw, minc and maxc will be chosen close to the degree sequence extremes."<<endl;
 	cout<<"If you don't specify -C the rewiring process for raising the average clustering coefficient will not be performed"<<endl;
 	cout<<"If you set a parameter twice, the latter one will be taken."<<endl;
-	
+
 	cout<<"\n-------------------- Other options ---------------------------\n"<<endl;
-	
-	
+
+
 	cout<<"To have a random network use:"<<endl;
 	cout<<"-rand"<<endl;
 	cout<<"Using this option will set muw=0, mut=0, and minc=maxc=N, i.e. there will be one only community."<<endl;
-	
-		
-	
+
+
+
 	cout<<"Use option -sup (-inf) if you want to produce a benchmark whose distribution of the ratio of external degree/total degree ";
 	cout<<"is superiorly (inferiorly) bounded by the mixing parameter."<<endl;
 
@@ -483,11 +483,11 @@ void statement() {
 	cout<<"./benchmark -N 1000 -k 15 -maxk 50 -muw 0.1 -minc 20 -maxc 50 -cnl 1 -name gen/case1K15"<<endl;
 	cout<<"Example2:"<<endl;
 	cout<<"./benchmark -f flags.dat -t1 3"<<endl;
-	
+
 	cout<<"\n-------------------- Other info ---------------------------\n"<<endl;
 	cout<<"Read file ReadMe.txt for more info."<<endl<<endl;
-	
-	
+
+
 }
 
 
@@ -495,149 +495,145 @@ bool set_from_file(string & file_name, Parameters & par1) {
 
 
 	int h= file_name.size();
-	char (*b) = new char[h+1];
+	char b[h+1];
 	cast_string_to_char(file_name, b);
-	
+
 	ifstream in(b);
 	if (!in.is_open()) {
 		cerr<<"File "<<file_name<<" not found. Where is it?"<<endl;
 		return false;
 	}
-	
-	
-	
+
+
+
 	string temp;
 	while(in>>temp) {			// input file name
 
-		
+
 		if(temp=="-rand")
 			par1.randomf=true;
-		
+
 		else if(temp=="-sup")
 			par1.excess=true;
-		
+
 		else if(temp=="-inf")
 			par1.defect=true;
-		
+
 		else {
-			
-				
+
+
 			string temp2;
 			in>>temp2;
-			
-			
+
+
 			if(temp2.size()>0) {
-			
-				
+
+
 				if(temp=="-f" && temp2 != file_name) {
 					if(set_from_file(temp2, par1)==false)
 						return false;
 				}
-				
+
 				if(temp!="-f") {
 					if(par1.set(temp, temp2)==false)
 						return false;
 				}
-			
-			
+
+
 			}
-		
+
 			else {
-			
+
 				cerr<<"\n***********************\nERROR while reading parameters set_from_file()"<<endl;
 				return false;
-		
+
 			}
 		}
-		
+
 	}
 
-	delete[] b;
+
 	return true;
-	
+
 
 }
 
 
 
 bool set_parameters(int argc, char * argv[], Parameters & par1) {
-	
+
 	int argct = 0;
 	string temp;
-	
+
 	if (argc <= 1) { // if no arguments, return statement about program usage.
-		
+
 		statement();
 		return false;
 	}
 
 
 
-		
+
 	while (++argct < argc) {			// input file name
 
 		temp = argv[argct];
-		
-		
+
+
 		if(temp=="-rand")
 			par1.randomf=true;
-		
-		
+
+
 		else if(temp=="-sup")
 			par1.excess=true;
-		
+
 		else if(temp=="-inf")
 			par1.defect=true;
-		
+
 		else {
-			
+
 			argct++;
-				
+
 			string temp2;
-				
+
 			if(argct<argc) {
-			
+
 				temp2 = argv[argct];
-				
+
 
 				if(temp=="-f") {
-					
+
 					if(set_from_file(temp2, par1)==false)
 						return false;
-					
-				}
-				
 
-				
+				}
+
+
+
 				if(temp!="-f") {
-					
-					
+
+
 					if(par1.set(temp, temp2)==false)
 						return false;
-						
-						
+
+
 				}
-				
+
 			}
-		
+
 			else {
-			
+
 				cerr<<"\n***********************\nERROR while reading parameters set_parameters(), arg: "
 					<< temp << endl;
 				return false;
-		
+
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	if(par1.arrange()==false)
 		return false;
-	
+
 	return true;
 }
-
-
-
-

@@ -9,17 +9,17 @@ import networkx as nx
 
 import utils
 
-LFR_BIN = os.path.abspath("../../Benchmark_LFR/x64/Debug")
+LFR_BIN = os.path.abspath("../../Benchmark_LFR/lfrbench_udwov")
 
 
 # Create the graph using LFR-benchmark
 # k=20, kmax 50, cmin 20, cmax 100, tow1 -2, tow2 = -1, mixing = 0.4 Om=2, nr overlapping nodes = On/n
 # n = 1000-10000 dn=1000 Om=1-8 dOm=1 On/n 0.1-0.6 dOn/n=0.1
 def create_graph(N:int, k:int, maxk:int, mixing_topology:float, mixing_weights:float, tow1:float, tow2:float, minc:int, maxc:int, on:int, om:int, name:str, result_dir:str):
-    filename = os.path.join("../networks", str(name), str(name))
+    filename = os.path.join("..", "networks", str(name), str(name))
     seed_path = os.path.join("..", "seed.txt")
     command = [
-        os.path.join(LFR_BIN, "LFR-Benchmark.exe"),
+        LFR_BIN,
         "-N", str(N),
         "-k", str(k),
         "-maxk", str(maxk),
