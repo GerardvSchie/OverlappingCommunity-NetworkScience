@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 
 
 def copy_without_comments(in_path: str, res_path: str):
+    # Input file does not exist
+    if not os.path.exists(in_path):
+        return
+
     with open(res_path, "w") as res_file:
         with open(in_path, "r") as file:
             for line in file:

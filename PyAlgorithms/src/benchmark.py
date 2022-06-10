@@ -9,7 +9,7 @@ import networkx as nx
 
 import utils
 
-LFR_BIN = os.path.abspath("../../Benchmark_LFR/lfrbench_udwov")
+LFR_BIN = os.path.abspath(os.path.join("..", "..", "Benchmark_LFR", "lfrbench_udwov"))
 
 
 # Create the graph using LFR-benchmark
@@ -36,11 +36,7 @@ def create_graph(N:int, k:int, maxk:int, mixing_topology:float, mixing_weights:f
         "-name", filename,
         "-seed", seed_path
     ]
-    subprocess.run(command, shell=True, check=True)
-
-    # Copy over communities and edges file
-    shutil.copyfile(filename + ".cnl", os.path.join(result_dir, "communities.dat"))
-    utils.copy_without_comments(os.path.abspath(filename) + ".nse", os.path.join(result_dir, "edges.dat"))
+    subprocess.run(command, check=False)
 
 
 def read_graph(edges_path, weighted=False):

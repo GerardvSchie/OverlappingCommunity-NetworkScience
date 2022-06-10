@@ -4,14 +4,15 @@ import utils
 import omega_index_py3
 from nf1 import NF1
 
-NMI_BIN = os.path.abspath("../../Measure_NMI/x64/Debug")
+NMI_BIN = os.path.abspath(os.path.join("..", "..", "Measure_NMI", "mutual"))
 
 
 # Compute the NMI score
 # https://sites.google.com/site/andrealancichinetti/mutual
 def get_nmi_score(graph_name: str, output_name: str) -> float:
+    assert os.path.exists(NMI_BIN)
     command = [
-        os.path.join(NMI_BIN, "NMI_Measure.exe"),
+        NMI_BIN,
         f"../networks/{graph_name}/results/communities.dat",
         f"../networks/{graph_name}/results/{output_name}.dat"
     ]

@@ -9,35 +9,14 @@ import networkx.algorithms as nxa
 import shutil
 import external.weighted_weak_communities
 
-OSLOM_BIN = os.path.abspath("../../Algo_Oslom/x64/Debug")
 CFINDER_BIN = os.path.abspath("../../Algo_CFinder")
-OSLOM2_BIN = os.path.abspath("../../Algo_Oslom2/oslom_undir")
+OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))
 
 
 def run_demon(G):
     dm = d.Demon(graph=G, epsilon=0.25, min_community_size=3)
     coms = dm.execute()
     return coms
-
-
-def run_oslom(path: str, weighted=False):
-    weighted_flag = None
-    if weighted:
-        weighted_flag = "-w"
-    else:
-        weighted_flag = "-uw"
-
-    # OSLOM -f example.dat -uw -time 0.005 -infomap 3 -copra 2 -louvain 1
-    command = [
-        os.path.join(OSLOM_BIN, "OSLOM.exe"),
-        "-f", path,
-        weighted_flag,
-        "-t", "0.005",
-        "-infomap", "3",
-        "-copra", "2",
-        "-louvain", "1"
-    ]
-    subprocess.run(command, shell=True, check=True)
 
 
 def run_oslom2(path: str, weighted=False):
@@ -52,14 +31,16 @@ def run_oslom2(path: str, weighted=False):
         OSLOM2_BIN,
         "-f", path,
         weighted_flag,
-        # "-t", "0.005",
-        # "-infomap", "3",
-        # "-copra", "2",
-        # "-louvain", "1"
+        "-t", "0.005",
+        "-infomap", "3",
+        "-copra", "2",
+        "-louvain", "1",
         "-fast"
     ]
-    subprocess.run(command, shell=True, check=True)
 
+    # Somehow does not work with subprocess.run
+    command_line = " ".join(command)
+    os.system(command_line)
 
 
 def run_native_cfinder(G):

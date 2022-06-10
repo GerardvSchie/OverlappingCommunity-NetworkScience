@@ -4,6 +4,7 @@ This repository is used to compare algorithms that can detect overlapping commun
 It will contain the data used and the algorithms that are compared.
 
 ## Generating synthetic networks
+
 LFR-Benchmark can create synthetic networks given some parameters
 For now it looks like it cannot create the resulting files in subdirectories.
 So only give a file name using `-name` argument.
@@ -19,6 +20,9 @@ For example the following command can be put in the console window.
 ```
 
 This wil create 3 files with the name `case1K15`.
+
+### Build
+command ```make``` builds this succesfully on linux
 
 ## Python code
 
