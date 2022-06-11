@@ -19,12 +19,13 @@ def run_demon(G):
     return coms
 
 
-def run_oslom2(path: str, weighted=False):
-    weighted_flag = None
+def run_oslom2(path: str, weighted):
     if weighted:
         weighted_flag = "-w"
     else:
         weighted_flag = "-uw"
+
+    assert os.path.exists(path)
 
     # OSLOM -f example.dat -uw -time 0.005 -infomap 3 -copra 2 -louvain 1
     command = [
@@ -32,15 +33,16 @@ def run_oslom2(path: str, weighted=False):
         "-f", path,
         weighted_flag,
         "-t", "0.005",
-        "-infomap", "3",
-        "-copra", "2",
-        "-louvain", "1",
+        # "-infomap", "3",
+        # "-copra", "2",
+        # "-louvain", "1",
         "-fast"
     ]
 
+    subprocess.run(command, shell=True, check=True)
     # Somehow does not work with subprocess.run
-    command_line = " ".join(command)
-    os.system(command_line)
+    # command_line = " ".join(command)
+    # os.system(command_line)
 
 
 def run_native_cfinder(G):
@@ -56,7 +58,7 @@ def run_native_cfinder(G):
 
 
 def run_cfinder(graph_name, path):
-    output_dir = os.path.join("../networks", graph_name, "cfinder_run")
+    output_dir = os.path.join("..", "networks", graph_name, "cfinder_run")
     if os.path.exists(output_dir):
         shutil.rmtree(output_dir)
 
@@ -69,9 +71,11 @@ def run_cfinder(graph_name, path):
     subprocess.run(command, shell=True, check=True)
 
 
-def run_wnw(G):
+def run_wnw(G, weighted):
     if nx.is_directed(G):
         return None
+    elif weighted:
+        comms_sets = external.weighted_weak_communities.weighted_weak_communities(G, weight='weight')
     else:
         comms_sets = external.weighted_weak_communities.weighted_weak_communities(G)
 

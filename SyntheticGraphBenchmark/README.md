@@ -1,2 +1,0 @@
-# SyntheticGraphBenchmark
-Synthetic Graph Generator

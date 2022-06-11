@@ -13,7 +13,7 @@ def get_nmi_score(graph_name: str, output_name: str) -> float:
     assert os.path.exists(NMI_BIN)
     command = [
         NMI_BIN,
-        f"../networks/{graph_name}/results/communities.dat",
+        f"../networks/{graph_name}/results/community.dat",
         f"../networks/{graph_name}/results/{output_name}.dat"
     ]
 
@@ -27,7 +27,7 @@ def get_nmi_score(graph_name: str, output_name: str) -> float:
 
 # Compares omega score with the ground truth
 def get_omega_score(results_dir: str, algo_output_name: str) -> float:
-    ground_truth = utils.communities_from_file(results_dir, "communities")
+    ground_truth = utils.communities_from_file(results_dir, "community")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     o = omega_index_py3.Omega(output, ground_truth)
@@ -36,7 +36,7 @@ def get_omega_score(results_dir: str, algo_output_name: str) -> float:
 
 # Computing the NF1 scores and statistics
 def get_average_f1_score(results_dir: str, algo_output_name: str) -> float:
-    ground_truth = utils.communities_from_file(results_dir, "communities")
+    ground_truth = utils.communities_from_file(results_dir, "community")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     nf = NF1(output, ground_truth)

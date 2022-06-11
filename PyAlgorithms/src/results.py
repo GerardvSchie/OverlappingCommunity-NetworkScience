@@ -1,9 +1,6 @@
 import os
-import re
 
 results_path = os.path.join("..", "results.dat")
-latest_results_path = os.path.join("..", "latest_results.dat")
-regex_results = r'^(.*)-(.*)$'
 
 
 def collect_results():
@@ -35,28 +32,3 @@ def collect_results():
 
     # Print all the directories that did not have results
     print(f"missing result files: {missing_names}")
-
-
-def write_to_results_file(graph_name, demon_omega, demon_nmi, demon_nf1, oslom2_omega, oslom2_nmi, oslom2_nf1, wmw_omega, wmw_nmi, wmw_nf1):
-    with open(results_path, "w") as file:
-        line = ",".join([graph_name, demon_omega, demon_nmi, demon_nf1, oslom2_omega, oslom2_nmi, oslom2_nf1, wmw_omega, wmw_nmi, wmw_nf1])
-        file.writelines([line])
-
-
-def latest_results():
-    unique_results = dict()
-    with open(results_path, "r") as file:
-        for line in file.readline().strip():
-            match = re.match(regex_results, line)
-            if not match:
-                continue
-            graph_name, results = match[1], match[2]
-            print(graph_name, results)
-            unique_results[graph_name] = results
-    with open(latest_results_path, "w") as latest_file:
-        latest_file.writelines(["graph_name, "
-                                "demon_omega, demon_nmi, demon_nf1, "
-                                "oslom2_omega, oslom2_nmi, oslom2_nf1, "
-                                "wmw_omega, wmw_nmi, wmw_nf1"])
-        for name, result in unique_results:
-            latest_file.write(name + "-" + result)

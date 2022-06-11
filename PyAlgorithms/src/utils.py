@@ -61,3 +61,17 @@ def communities_from_file(result_dir: str, name: str) -> dict[[str]]:
 
     # print(communities)
     return communities
+
+
+def copy_edge_file(graph_path: str):
+    with open(os.path.join(graph_path, "network.dat"), "r") as created_file:
+        with open(os.path.join(graph_path, "results", "network.dat"), "w") as result_file:
+            for line in created_file.readlines():
+                line = line.strip()
+                vals = line.split('\t')
+                if len(vals) == 2:
+                    result_file.write(line + "\n")
+                elif vals[2] == '0':
+                    continue
+                else:
+                    result_file.write(line + "\n")
