@@ -8,18 +8,21 @@ import networkx as nx
 import networkx.algorithms as nxa
 import shutil
 import external.weighted_weak_communities
+import debug
 
 CFINDER_BIN = os.path.abspath("../../Algo_CFinder")
 OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))
 
 
 def run_demon(G):
+    debug.print_msg("Run demon")
     dm = d.Demon(graph=G, epsilon=0.25, min_community_size=3)
     coms = dm.execute()
     return coms
 
 
 def run_oslom2(path: str, weighted):
+    debug.print_msg("Run oslom2")
     if weighted:
         weighted_flag = "-w"
     else:
@@ -72,6 +75,7 @@ def run_cfinder(graph_name, path):
 
 
 def run_wnw(G, weighted):
+    debug.print_msg("Run WNW")
     if nx.is_directed(G):
         return None
     elif weighted:

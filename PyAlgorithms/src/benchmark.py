@@ -6,6 +6,7 @@ import os
 import subprocess
 import shutil
 import networkx as nx
+import debug
 
 import utils
 
@@ -18,6 +19,8 @@ LFR_W_BIN = os.path.join(LFR_BUILD_DIR, "weighted_graph", "lfr_weighted_net")
 # k=20, kmax 50, cmin 20, cmax 100, tow1 -2, tow2 = -1, mixing = 0.4 Om=2, nr overlapping nodes = On/n
 # n = 1000-10000 dn=1000 Om=1-8 dOm=1 On/n 0.1-0.6 dOn/n=0.1
 def create_graph(weighted:bool, N:int, k:int, maxk:int, mixing_topology:float, mixing_weights:float, tow1:float, tow2:float, minc:int, maxc:int, on:int, om:int, graph_dir:str):
+    debug.print_msg("LFR running")
+
     # Command that runs weighted network
     if weighted:
         command = [

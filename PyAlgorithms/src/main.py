@@ -26,7 +26,7 @@ def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
     utils.create_dir(result_dir)
 
     # Graph already exists
-    if not (os.path.exists(os.path.join(graph_path, "communities.dat")) and os.path.exists(os.path.join(graph_path, "network.dat")) and os.path.exists(os.path.join(graph_path, f"statistics.dat"))):
+    if not (os.path.exists(os.path.join(graph_path, "community.dat")) and os.path.exists(os.path.join(graph_path, "network.dat")) and os.path.exists(os.path.join(graph_path, f"statistics.dat"))):
         # k=20, kmax 50, cmin 20, cmax 100, tow1 -2, tow2 = -1, mixing = 0.4 Om=2, nr overlapping nodes = On/n
         # n = 1000-10000 dn=1000 Om=1-8 dOm=1 On/n 0.1-0.6 dOn/n=0.1
         benchmark.create_graph(
@@ -63,19 +63,19 @@ def test_graph(weighted: bool, result_dir: str) -> None:
 
     # WNW
     # if not os.path.exists(os.path.join(result_dir, "wnw.dat")):
-    wnw_communities = algorithm.run_wnw(G, weighted)
+    wnw_communities = algorithm.run_wnw(G, weighted='weighted')
     utils.communities_to_file(result_dir, wnw_communities, "wnw")
 
     # DEMON
     # if not os.path.exists(os.path.join(result_dir, "demon.dat")):
-    demon_communities = algorithm.run_demon(G)
-    utils.communities_to_file(result_dir, demon_communities, "demon")
+    # demon_communities = algorithm.run_demon(G)
+    # utils.communities_to_file(result_dir, demon_communities, "demon")
 
     # OSLOM2
     # if not os.path.exists(os.path.join(result_dir, "oslom2.dat")):
-    algorithm.run_oslom2(edges_path, weighted)
-    utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
-                                os.path.join(result_dir, "oslom2.dat"))
+    # algorithm.run_oslom2(edges_path, weighted)
+    # utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
+    #                             os.path.join(result_dir, "oslom2.dat"))
 
     # # Visualize the network
     # visual_graph(G)
