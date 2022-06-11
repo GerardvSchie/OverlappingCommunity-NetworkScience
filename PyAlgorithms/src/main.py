@@ -18,7 +18,7 @@ def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
         graph_name = "UW_" + graph_name
 
     graph_path = os.path.join("..", "networks", graph_name)
-    result_dir = os.path.abspath(os.path.join(graph_path, "results"))
+    result_dir = os.path.join(graph_path, "results")
 
     # Create directories
     utils.create_dir(os.path.join("..", "networks"))
@@ -63,19 +63,19 @@ def test_graph(weighted: bool, result_dir: str) -> None:
 
     # WNW
     # if not os.path.exists(os.path.join(result_dir, "wnw.dat")):
-    wnw_communities = algorithm.run_wnw(G, weighted='weighted')
-    utils.communities_to_file(result_dir, wnw_communities, "wnw")
+    #     wnw_communities = algorithm.run_wnw(G, weighted='weighted')
+    #     utils.communities_to_file(result_dir, wnw_communities, "wnw")
 
     # DEMON
     # if not os.path.exists(os.path.join(result_dir, "demon.dat")):
-    # demon_communities = algorithm.run_demon(G)
-    # utils.communities_to_file(result_dir, demon_communities, "demon")
+    #     demon_communities = algorithm.run_demon(G)
+    #     utils.communities_to_file(result_dir, demon_communities, "demon")
 
     # OSLOM2
     # if not os.path.exists(os.path.join(result_dir, "oslom2.dat")):
-    # algorithm.run_oslom2(edges_path, weighted)
-    # utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
-    #                             os.path.join(result_dir, "oslom2.dat"))
+    algorithm.run_oslom2(edges_path, weighted)
+    utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
+                                os.path.join(result_dir, "oslom2.dat"))
 
     # # Visualize the network
     # visual_graph(G)
