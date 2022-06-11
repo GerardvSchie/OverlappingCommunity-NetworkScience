@@ -112,14 +112,29 @@ def get_scores(result_dir, graph_name):
 if __name__ == '__main__':
     results.collect_results()
 
+    default_n = 3000
+    default_Om = 3
+    default_On_frac = 0.3
+
+    # Change the n parameter
     for n in np.arange(1000, 11000, 1000):
         # print("n:" + str(n))
-        # for Om in np.arange(1, 9, 1):
-        for Om in np.arange(1, 7, 1):
-            # print("Om:" + str(Om))
-            for on_frac in np.arange(0.1, 0.7, 0.1):
-                On = int(n * on_frac)
-                # print("On" + str(On))
-                graph_name, result_dir = create_graph(N=n, Om=Om, On=On)
-                test_graph(graph_name, result_dir)
-                get_scores(result_dir, graph_name)
+        On = int(default_On_frac * n)
+        graph_name, result_dir = create_graph(N=n, Om=default_Om, On=On)
+        test_graph(graph_name, result_dir)
+        get_scores(result_dir, graph_name)
+
+    # for Om in np.arange(1, 9, 1):
+    for Om in np.arange(1, 7, 1):
+        On = int(default_On_frac * default_n)
+        graph_name, result_dir = create_graph(N=default_n, Om=Om, On=On)
+        test_graph(graph_name, result_dir)
+        get_scores(result_dir, graph_name)
+        # print("Om:" + str(Om))
+
+    for on_frac in np.arange(0.1, 0.7, 0.1):
+        On = int(default_n * on_frac)
+        # print("On" + str(On))
+        graph_name, result_dir = create_graph(N=default_n, Om=default_Om, On=On)
+        test_graph(graph_name, result_dir)
+        get_scores(result_dir, graph_name)
