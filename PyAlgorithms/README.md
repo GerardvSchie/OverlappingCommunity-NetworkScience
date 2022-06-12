@@ -29,7 +29,7 @@ GUI for matplotlib by `sudo apt-get install python-tk`
   * **results.py:** Collects all the results created by measures and combines them to 
   * **utils.py:** Contains utility functions, mostly for reading/writing to files and converting formats
   * **visualize.py:** Converts the results to plots using matplotlib
-* **results.dat:** File containing all the results of the synthetic networks.
+* **(synthetic|real)_results.dat:** File containing all the results of the networks, gathers all output information in this file.
 
 ## Running
 

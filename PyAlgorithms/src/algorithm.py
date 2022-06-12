@@ -32,9 +32,6 @@ def run_oslom2(path: str, weighted):
         "-f", path,
         weighted_flag,
         "-t", "0.005",
-        "-infomap", "3",
-        "-copra", "2",
-        "-louvain", "1",
         "-fast"
     ]
 

@@ -119,14 +119,13 @@ def get_scores(synthetic: bool, result_dir: str, graph_name: str):
                 file.write(f"{algo},{nmi_score},{omega_index},{avg_f1}\n")
 
 
-def run_synthetic_networks():
+def run_synthetic_networks(weighted: bool):
     results.collect_synthetic_results()
-    visualize.plot_results()
+    visualize.plot_results(weighted, "synthetic")
 
     default_n = 3000
     default_Om = 3
     default_On_frac = 0.3
-    weighted = False
 
     # Change the n parameter
     # for n in np.arange(1000, 11000, 1000):
@@ -153,6 +152,9 @@ def run_synthetic_networks():
         test_graph(weighted, result_dir)
         get_scores(True, result_dir, graph_name)
 
+    # Algorithm is done running, collect the latest results and write it to the file
+    results.collect_synthetic_results()
+
 
 def run_real_networks():
     for name in ["PPI-D1", "PPI-D2"]:
@@ -170,15 +172,13 @@ def run_real_networks():
         test_graph(True, result_dir)
         get_scores(False, result_dir, name)
 
+    # Such a short run, no need to collect results from last run
+    results.collect_real_results()
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     run_real_networks()
-
-    # run_synthetic_networks()
-    # weighted = True
-    # graph_name, result_dir = create_graph(weighted, N=200, Om=0, On=0)
-    # test_graph(weighted, result_dir)
-    # get_scores(result_dir, graph_name)
-    # raise Exception("Fast stop")
+    run_synthetic_networks(weighted=False)
+    run_synthetic_networks(weighted=True)
 
