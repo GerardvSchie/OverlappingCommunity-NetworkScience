@@ -35,6 +35,11 @@ GUI for matplotlib by `sudo apt-get install python-tk`
 
 After following the steps in the readme and installing all the requirements with pip running should be done by running main.py from its own level
 
+The first time the plots will be empty. The plots are created from the information gathered by the previous run.
+So if you want to see the plots then let it run for a few minutes and run it again.
+Stopping the algorithm from running will **NOT** result in lost data from computations. The information is all stored in the output files.
+So the program will automatically continue from where it left off.
+
 **_Warning:_** Doing a full run will take a few hours, this is because the Omega Index computation takes exponentially long the larger the network gets.
 
 ### Output of the program

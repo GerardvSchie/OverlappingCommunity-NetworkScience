@@ -42,9 +42,9 @@ def run_oslom2(path: str, weighted):
     os.system(command_line)
 
     # Remove leftover files
-    os.remove("time_seed.dat")
-    os.remove("tp")
-    os.remove("oslo_network_h")
+    # os.remove("time_seed.dat")
+    # os.remove("tp")
+    # os.remove("oslo_network_h")
 
 
 def run_wnw(G, weighted):
