@@ -1,3 +1,6 @@
+Matplotlib is currently using agg, which is a non-GUI backend
+sudo apt-get install python3-tk
+
 # LFR-Benchmark:
 
 ## Parameters:

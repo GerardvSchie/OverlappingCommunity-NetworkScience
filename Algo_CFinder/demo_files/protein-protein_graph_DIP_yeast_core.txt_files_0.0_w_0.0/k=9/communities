@@ -1,9 +1,0 @@
-# The communities at k=9
-# from C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\C:\Users\gerard\Downloads\CFinderWinLinux\CFinder-2.0.6--1448\demo_files\protein-protein_graph_DIP_yeast_core.txt
-# at no lower link weight threshold,
-# and at no upper link weight threshold.
-# Links were treated as undirected.
-# No time limit was set for the clique search.
-
-0: Cdc16p Apc11p Apc1p Apc2p Apc4p Apc5p Cdc23p Cdc26p Cdc27p Doc1p 
-1: Lsm8p Lsm3p Lsm1p Lsm4p Lsm5p Lsm7p Lsm2p Lsm6p Pat1p 

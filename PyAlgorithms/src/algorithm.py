@@ -2,15 +2,11 @@
 # Source: https://github.com/velicast/WMW
 
 import os
-import subprocess
 import demon as d
 import networkx as nx
-import networkx.algorithms as nxa
-import shutil
 import external.weighted_weak_communities
 import debug
 
-CFINDER_BIN = os.path.abspath("../../Algo_CFinder")
 OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))
 
 
@@ -42,14 +38,16 @@ def run_oslom2(path: str, weighted):
         "-fast"
     ]
 
-    # print(command)
-
     # subprocess.run(command, shell=True, check=True)
 
     # Somehow does not work with subprocess.run
     command_line = " ".join(command)
     os.system(command_line)
 
+    # Remove leftover files
+    os.remove("time_seed.dat")
+    os.remove("tp")
+    os.remove("oslo_network_h")
 
 
 def run_wnw(G, weighted):

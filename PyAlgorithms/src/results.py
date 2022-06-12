@@ -9,6 +9,8 @@ def collect_results():
 
     # Open file where the results will be written into
     with open(data_path, "w") as dat_file:
+        dat_file.write("config_name, demon_nmi, demon_omega, demon_nf1, oslom_nmi, oslom_omega, oslom_nf1, wnw_nmi, wnw_omega, wnw_nf1\n")
+
         network_dir = os.path.join("..", "networks")
         network_names = [name for name in os.listdir(network_dir) if os.path.isdir(os.path.join(network_dir, name))]
 
