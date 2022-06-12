@@ -99,9 +99,7 @@ def read_graph(weighted: bool, edges_path: str):
     if weighted:
         G = nx.parse_edgelist(edges, nodetype=int, data=(("weight", float),), delimiter='\t', create_using=nx.Graph())
     else:
-        # Set all weights to 1
         G = nx.parse_edgelist(edges, nodetype=int, delimiter='\t', create_using=nx.Graph())
-        # nx.set_edge_attributes(G, values=1, name="weight")
 
     # Quick check to see if the parsing worked
     # print(G.edges(data = True))

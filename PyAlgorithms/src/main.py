@@ -62,9 +62,14 @@ def test_graph(weighted: bool, result_dir: str) -> None:
     G = benchmark.read_graph(weighted, edges_path)
     # print(G.edges(data=True))
 
+    if weighted:
+        weighted_flag = 'weight'
+    else:
+        weighted_flag = None
+
     # WNW
     if not os.path.exists(os.path.join(result_dir, "wnw.dat")):
-        wnw_communities = algorithm.run_wnw(G, weighted='weighted')
+        wnw_communities = algorithm.run_wnw(G, weighted=weighted_flag)
         utils.communities_to_file(result_dir, wnw_communities, "wnw")
 
     # DEMON
@@ -83,7 +88,7 @@ def test_graph(weighted: bool, result_dir: str) -> None:
 
 
 # Get the 3 measurements of the algorithms
-def get_scores(result_dir, graph_name):
+def get_scores(synthetic: bool, result_dir: str, graph_name: str):
     algos = ["demon", "oslom2", "wnw"]
     result_file = os.path.join(result_dir, "result.dat")
     prev_algorithms_results = []
@@ -107,7 +112,7 @@ def get_scores(result_dir, graph_name):
             file.write("algo, nmi, omega, nf1\n")
         for algo in algos:
             if os.path.exists(os.path.join(result_dir, algo + ".dat")):
-                nmi_score = measure.get_nmi_score(graph_name, algo)
+                nmi_score = measure.get_nmi_score(synthetic, graph_name, algo)
                 omega_index = measure.get_omega_score(result_dir, algo)
                 avg_f1 = measure.get_average_f1_score(result_dir, algo)
                 # Write these results in the file
@@ -115,41 +120,42 @@ def get_scores(result_dir, graph_name):
 
 
 def run_synthetic_networks():
-    results.collect_results()
+    results.collect_synthetic_results()
     visualize.plot_results()
 
     default_n = 3000
     default_Om = 3
     default_On_frac = 0.3
+    weighted = False
 
     # Change the n parameter
     # for n in np.arange(1000, 11000, 1000):
     for n in np.arange(1000, 7000, 1000):
         # print("n:" + str(n))
         On = int(default_On_frac * n)
-        graph_name, result_dir = create_graph(True, N=n, Om=default_Om, On=On)
-        test_graph(True, result_dir)
-        get_scores(result_dir, graph_name)
+        graph_name, result_dir = create_graph(weighted, N=n, Om=default_Om, On=On)
+        test_graph(weighted, result_dir)
+        get_scores(True, result_dir, graph_name)
         # raise Exception("Fast stop")
 
     # for Om in np.arange(1, 9, 1):
     for Om in np.arange(1, 7, 1):
         On = int(default_On_frac * default_n)
-        graph_name, result_dir = create_graph(True, N=default_n, Om=Om, On=On)
-        test_graph(True, result_dir)
-        get_scores(result_dir, graph_name)
+        graph_name, result_dir = create_graph(weighted, N=default_n, Om=Om, On=On)
+        test_graph(weighted, result_dir)
+        get_scores(True, result_dir, graph_name)
         # print("Om:" + str(Om))
 
     for on_frac in np.arange(0.1, 0.7, 0.1):
         On = int(default_n * on_frac)
         # print("On" + str(On))
-        graph_name, result_dir = create_graph(True, N=default_n, Om=default_Om, On=On)
-        test_graph(True, result_dir)
-        get_scores(result_dir, graph_name)
+        graph_name, result_dir = create_graph(weighted, N=default_n, Om=default_Om, On=On)
+        test_graph(weighted, result_dir)
+        get_scores(True, result_dir, graph_name)
 
 
 def run_real_networks():
-    for name in ["PPI-D2"]:
+    for name in ["PPI-D1", "PPI-D2"]:
         # Create directories
         graph_path = os.path.join("..", "real_networks", name)
         result_dir = os.path.join(graph_path, "results")
@@ -157,19 +163,19 @@ def run_real_networks():
 
         mapping = utils.get_node_mapping(graph_path)
         # Move files to results folder
-        # shutil.copyfile(os.path.join(graph_path, "community.dat"), os.path.join(result_dir, "community.dat"))
         utils.copy_communities_with_mapping(graph_path, mapping)
         utils.copy_edge_file(graph_path, mapping)
 
         # Test the graph
         test_graph(True, result_dir)
-        get_scores(result_dir, name)
+        get_scores(False, result_dir, name)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     run_real_networks()
 
+    # run_synthetic_networks()
     # weighted = True
     # graph_name, result_dir = create_graph(weighted, N=200, Om=0, On=0)
     # test_graph(weighted, result_dir)
