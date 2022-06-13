@@ -3,17 +3,25 @@ import subprocess
 import utils
 import omega_index_py3
 from nf1 import NF1
+import debug
 
-NMI_BIN = os.path.abspath("../../Measure_NMI/x64/Debug")
+NMI_BIN = os.path.abspath(os.path.join("..", "..", "Measure_NMI", "mutual"))
 
 
 # Compute the NMI score
 # https://sites.google.com/site/andrealancichinetti/mutual
-def get_nmi_score(graph_name: str, output_name: str) -> float:
+def get_nmi_score(synthetic: bool, graph_name: str, output_name: str) -> float:
+    debug.print_msg("Run NMI")
+    assert os.path.exists(NMI_BIN)
+    if synthetic:
+        folder_name = "synthetic_networks"
+    else:
+        folder_name = "real_networks"
+
     command = [
-        os.path.join(NMI_BIN, "NMI_Measure.exe"),
-        f"../networks/{graph_name}/results/communities.dat",
-        f"../networks/{graph_name}/results/{output_name}.dat"
+        NMI_BIN,
+        f"../{folder_name}/{graph_name}/results/community.dat",
+        f"../{folder_name}/{graph_name}/results/{output_name}.dat"
     ]
 
     # Run the program that gets the NMI score
@@ -26,7 +34,8 @@ def get_nmi_score(graph_name: str, output_name: str) -> float:
 
 # Compares omega score with the ground truth
 def get_omega_score(results_dir: str, algo_output_name: str) -> float:
-    ground_truth = utils.communities_from_file(results_dir, "communities")
+    debug.print_msg("Run Omega")
+    ground_truth = utils.communities_from_file(results_dir, "community")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     o = omega_index_py3.Omega(output, ground_truth)
@@ -35,13 +44,13 @@ def get_omega_score(results_dir: str, algo_output_name: str) -> float:
 
 # Computing the NF1 scores and statistics
 def get_average_f1_score(results_dir: str, algo_output_name: str) -> float:
-    ground_truth = utils.communities_from_file(results_dir, "communities")
+    debug.print_msg("Run NF1")
+    ground_truth = utils.communities_from_file(results_dir, "community")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     nf = NF1(output, ground_truth)
     results = nf.summary()
 
-    # print(results['scores'])
     nf1 = results['details']['F1 mean'][0]
     return nf1
 

@@ -447,6 +447,7 @@ bool static_network::set_graph(string file_name) {
 					}
 					else {
 						cerr<<"error: not positive weights"<<endl;
+            cout<<"namely:"<<ds[2]<<endl;
 						return false;
 					}
 					//---------------------------------------------

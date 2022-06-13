@@ -1,12 +1,9 @@
 # https://github.com/GiulioRossetti/DEMON
 demon>=2.0.6
-oslom-runner>=1.5
 matplotlib
 scipy
 # API same as: https://github.com/isaranto/omega_index
 omega-index-py3==0.3.1
 # https://github.com/GiulioRossetti/f1-communities
 nf1
-
-# Util installed on own pc
-# nbconvert
+networkx

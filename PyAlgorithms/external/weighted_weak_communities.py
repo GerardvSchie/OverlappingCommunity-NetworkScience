@@ -8,11 +8,13 @@ from networkx.utils import not_implemented_for
 # WEIGHTED WEAK COMMUNITIES
 # -------------------------
 
+
 @not_implemented_for('directed')
 def weighted_weak_communities(G, min_size=3, dss_iters=2, weight=None):
 
     dss = dynamic_structural_similarity(G, dss_iters, weight)
     return _weighted_weak_communities(G, dss, min_size)
+
 
 @not_implemented_for('directed')
 def _weighted_weak_communities(G, similarity, min_size=3):
@@ -51,6 +53,7 @@ def _weighted_weak_communities(G, similarity, min_size=3):
 
     return communities.to_sets()
 
+
 def _update_candidates(u, v, new_members, new_sim, max_sim):
 
     if max_sim[u] < new_sim:
@@ -59,12 +62,13 @@ def _update_candidates(u, v, new_members, new_sim, max_sim):
     if max_sim[u] == new_sim:
         new_members[u].append(v)
 
+
 # ----------------------------
 # DYNAMIC STRUCTRAL SIMILARITY
 # ----------------------------
 @not_implemented_for('directed')
 def dynamic_structural_similarity(G, iters=2, weight=None):
-    
+
     prev_dss = Counter()
     next_dss = Counter()
 
@@ -75,8 +79,8 @@ def dynamic_structural_similarity(G, iters=2, weight=None):
             prev_dss[(v, u)] = real
     else:
         for u, v in G.edges:
-            prev_dss[(u, v)] = G[u, v][weight]
-            prev_dss[(v, u)] = G[u, v][weight]
+            prev_dss[(u, v)] = G.get_edge_data(u, v)[weight]
+            prev_dss[(v, u)] = G.get_edge_data(u, v)[weight]
     while iters > 0:
         for u, v in G.edges:
             u_nbrs = set(G[u]).union({u})
@@ -87,8 +91,9 @@ def dynamic_structural_similarity(G, iters=2, weight=None):
 
             uv_common_dss = sum(prev_dss[(u, x)]+prev_dss[(v, x)] for x in u_nbrs & v_nbrs)
 
-            uv_dss = uv_common_dss/math.sqrt(u_total_dss*v_total_dss)
+            uv_dss = uv_common_dss / math.sqrt(u_total_dss*v_total_dss)
 
+            # IGNORE WARNING, IT MUST BE A FLOAT
             next_dss[(u, v)] = uv_dss
             next_dss[(v, u)] = uv_dss
 

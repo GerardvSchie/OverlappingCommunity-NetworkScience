@@ -2,97 +2,183 @@ import os
 import benchmark
 import algorithm
 import measure
+import visualize
+import results
 import utils
+import numpy as np
+import shutil
 
 
-def create_graph() -> (str, str):
+def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
     # Create a synthetic network with given name
-    # Generate graph using LFR benchmark executable
-    graph_name = "N1000_k20_kmax50"
-    graph_path = os.path.join("../networks", graph_name)
+    # Generate graph using LFR benchmark
+    graph_name = f"N{N}_Om{Om}_On{On}"
+    if weighted:
+        graph_name = "W_" + graph_name
+    else:
+        graph_name = "UW_" + graph_name
+
+    graph_path = os.path.join("..", "synthetic_networks", graph_name)
+    result_dir = os.path.join(graph_path, "results")
+
+    # Create directories
+    utils.create_dir(os.path.join("..", "synthetic_networks"))
     utils.create_dir(graph_path)
-    result_dir = os.path.abspath(os.path.join(graph_path, "results"))
     utils.create_dir(result_dir)
 
     # Graph already exists
-    if os.path.exists(os.path.join(graph_path, f"{graph_name}.cnl")) and os.path.exists(os.path.join(graph_path, f"{graph_name}.nse")) and os.path.exists(os.path.join(graph_path, f"{graph_name}.nst")):
-        return graph_name, result_dir
+    if not (os.path.exists(os.path.join(graph_path, "community.dat")) and os.path.exists(os.path.join(graph_path, "network.dat")) and os.path.exists(os.path.join(graph_path, f"statistics.dat"))):
+        # k=20, kmax 50, cmin 20, cmax 100, tow1 -2, tow2 = -1, mixing = 0.4 Om=2, nr overlapping nodes = On/n
+        # n = 1000-10000 dn=1000 Om=1-8 dOm=1 On/n 0.1-0.6 dOn/n=0.1
+        benchmark.create_graph(
+            weighted=weighted,
+            N=N,
+            k=23, #k=20
+            maxk=30, #maxk=50
+            mixing_topology=0.4,
+            mixing_weights=0.1,
+            tow1=-2,
+            tow2=-1,
+            minc=20,
+            maxc=100,
+            on=On,
+            om=Om,
+            graph_dir=graph_path
+        )
 
-    # k=20, kmax 50, cmin 20, cmax 100, tow1 -2, tow2 = -1, mixing = 0.4 Om=2, nr overlapping nodes = On/n
-    # n = 1000-10000 dn=1000 Om=1-8 dOm=1 On/n 0.1-0.6 dOn/n=0.1
-    benchmark.create_graph(
-        N=1000,
-        k=17,
-        maxk=30,
-        mixing_topology=0.4,
-        mixing_weights=0,
-        tow1=-2,
-        tow2=-1,
-        minc=20,
-        maxc=100,
-        on=200,
-        om=2,
-        name=graph_name,
-        result_dir=result_dir
-    )
+    # Copy over communities and network file
+    if not os.path.exists(os.path.join(result_dir, "community.dat")) or not os.path.exists(os.path.join(result_dir, "network.dat")):
+        # Convert community file to NMI format
+        benchmark.community_to_nmi_file(graph_path)
+        utils.copy_edge_file(graph_path)
 
-    # benchmark.create_graph(N=100, k=5, maxk=20, mixing_topology=0.1, minc=7, maxc=20, name=graph_name, result_dir=result_dir)
-
-    # N: int, k: int, maxk: int, muw: float, minc: int, maxc: int, name: str
     return graph_name, result_dir
 
 
 # Test method
-def test_graph(graph_name, result_dir) -> None:
+def test_graph(weighted: bool, result_dir: str) -> None:
     # Read the graph from the generated edge file into nx graph
-    edges_path = os.path.join(result_dir, "edges.dat")
-    G = benchmark.read_graph(edges_path, weighted=True)
+    edges_path = os.path.join(result_dir, "network.dat")
+    G = benchmark.read_graph(weighted, edges_path)
+    # print(G.edges(data=True))
+
+    if weighted:
+        weighted_flag = 'weight'
+    else:
+        weighted_flag = None
 
     # WNW
     if not os.path.exists(os.path.join(result_dir, "wnw.dat")):
-        wnw_communities = algorithm.run_wnw(G)
+        wnw_communities = algorithm.run_wnw(G, weighted=weighted_flag)
         utils.communities_to_file(result_dir, wnw_communities, "wnw")
-        # get_scores(result_dir, graph_name, "wnw")
 
     # DEMON
     if not os.path.exists(os.path.join(result_dir, "demon.dat")):
         demon_communities = algorithm.run_demon(G)
         utils.communities_to_file(result_dir, demon_communities, "demon")
-        # get_scores(result_dir, graph_name, "demon")
 
-    # OSLOM
-    # algorithm.run_oslom(path, True)
-    # utils.copy_without_comments(os.path.join("../networks", graph_name + ".nse_oslo_files", "tp"),
-    #                             os.path.join(result_dir, "oslom.dat"))
-
+    # OSLOM2
     if not os.path.exists(os.path.join(result_dir, "oslom2.dat")):
-        algorithm.run_oslom2(edges_path, True)
-        utils.copy_without_comments(os.path.join("../networks", graph_name + ".nse_oslo_files", "tp"),
+        algorithm.run_oslom2(edges_path, weighted)
+        utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
                                     os.path.join(result_dir, "oslom2.dat"))
-
-    if not os.path.exists(os.path.join(result_dir, "cfinder.dat")):
-        algorithm.run_native_cfinder(G)
-        # algorithm.run_cfinder(graph_name, edges_path)
-        # utils.copy_without_comments(os.path.join("../networks", graph_name, "cfinder_run", "k=3", "communities"),
-        #                             os.path.join(result_dir, "cfinder.dat"))
-        # get_scores(result_dir, graph_name, "cfinder")
 
     # # Visualize the network
     # visual_graph(G)
 
 
 # Get the 3 measurements of the algorithms
-def get_scores(result_dir, graph_name):
-    algos = ["demon", "wnw"]
-    for algo in algos:
-        if os.path.exists(os.path.join(result_dir, algo + ".dat")):
-            print(f"NMI({graph_name}{algo}):" + str(measure.get_nmi_score(graph_name, algo)))
-            print(f"Omega({graph_name}{algo}):" + str(measure.get_omega_score(result_dir, algo)))
-            print(f"Avg F1({graph_name}{algo}): " + str(measure.get_average_f1_score(result_dir, algo)))
+def get_scores(synthetic: bool, result_dir: str, graph_name: str):
+    algos = ["demon", "oslom2", "wnw"]
+    result_file = os.path.join(result_dir, "result.dat")
+    prev_algorithms_results = []
+
+    result_existed = False
+    # Read which results are already available
+    if os.path.exists(result_file):
+        with open(result_file, "r") as file:
+            result_existed = True
+            prev_algorithms_results = [line.split(",")[0] for line in file.readlines()]
+
+    # Don't get results that are already present
+    for element in prev_algorithms_results:
+        if element in algos:
+            algos.remove(element)
+    if not algos:
+        return
+
+    with open(result_file, "a") as file:
+        if not result_existed:
+            file.write("algo, nmi, omega, nf1\n")
+        for algo in algos:
+            if os.path.exists(os.path.join(result_dir, algo + ".dat")):
+                nmi_score = measure.get_nmi_score(synthetic, graph_name, algo)
+                omega_index = measure.get_omega_score(result_dir, algo)
+                avg_f1 = measure.get_average_f1_score(result_dir, algo)
+                # Write these results in the file
+                file.write(f"{algo},{nmi_score},{omega_index},{avg_f1}\n")
+
+
+def run_synthetic_networks(weighted: bool):
+    results.collect_synthetic_results()
+    visualize.plot_results(weighted, "synthetic")
+
+    default_n = 3000
+    default_Om = 3
+    default_On_frac = 0.3
+
+    # Change the n parameter
+    # for n in np.arange(1000, 11000, 1000):
+    for n in np.arange(1000, 7000, 1000):
+        # print("n:" + str(n))
+        On = int(default_On_frac * n)
+        graph_name, result_dir = create_graph(weighted, N=n, Om=default_Om, On=On)
+        test_graph(weighted, result_dir)
+        get_scores(True, result_dir, graph_name)
+        # raise Exception("Fast stop")
+
+    # for Om in np.arange(1, 9, 1):
+    for Om in np.arange(1, 7, 1):
+        On = int(default_On_frac * default_n)
+        graph_name, result_dir = create_graph(weighted, N=default_n, Om=Om, On=On)
+        test_graph(weighted, result_dir)
+        get_scores(True, result_dir, graph_name)
+        # print("Om:" + str(Om))
+
+    for on_frac in np.arange(0.1, 0.7, 0.1):
+        On = int(default_n * on_frac)
+        # print("On" + str(On))
+        graph_name, result_dir = create_graph(weighted, N=default_n, Om=default_Om, On=On)
+        test_graph(weighted, result_dir)
+        get_scores(True, result_dir, graph_name)
+
+    # Algorithm is done running, collect the latest results and write it to the file
+    results.collect_synthetic_results()
+
+
+def run_real_networks():
+    for name in ["PPI-D1", "PPI-D2"]:
+        # Create directories
+        graph_path = os.path.join("..", "real_networks", name)
+        result_dir = os.path.join(graph_path, "results")
+        utils.create_dir(result_dir)
+
+        mapping = utils.get_node_mapping(graph_path)
+        # Move files to results folder
+        utils.copy_communities_with_mapping(graph_path, mapping)
+        utils.copy_edge_file(graph_path, mapping)
+
+        # Test the graph
+        test_graph(True, result_dir)
+        get_scores(False, result_dir, name)
+
+    # Such a short run, no need to collect results from last run
+    results.collect_real_results()
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    graph_name, result_dir = create_graph()
-    test_graph(graph_name, result_dir)
-    get_scores(result_dir, graph_name)
+    run_real_networks()
+    run_synthetic_networks(weighted=False)
+    run_synthetic_networks(weighted=True)
+
