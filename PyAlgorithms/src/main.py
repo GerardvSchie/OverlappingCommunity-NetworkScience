@@ -92,36 +92,56 @@ def add_nr_communities(result_dir: str) -> None:
     if not os.path.exists(result_file):
         return
 
+    gt_added = False
+
     lines = []
     with open(result_file, "r") as file:
         for line in file.readlines():
-            if line.startswith("algo") and len(line.split(",")) == 4:
-                lines.append(f"{line},nr_comms")
-            elif line.startswith("demon") and len(line.split(",")) == 4:
-                nr_communities = measure.get_number_communities(result_dir, "demon")
-                lines.append(f"{line},{str(nr_communities)}")
-            elif line.startswith("oslom") and len(line.split(",")) == 4:
-                nr_communities = measure.get_number_communities(result_dir, "oslom")
-                lines.append(f"{line},{str(nr_communities)}")
-            elif line.startswith("wnw") and len(line.split(",")) == 4:
-                nr_communities = measure.get_number_communities(result_dir, "wnw")
-                lines.append(f"{line},{str(nr_communities)}")
-            elif line.startswith("gt") and len(line.split(",")) == 1:
-                nr_communities = measure.get_number_communities(result_dir, "community")
-                lines.append(f"{line},{str(nr_communities)}")
-            else:
-                nr_communities = measure.get_number_communities(result_dir, "community")
-                lines.append(f"gt,{str(nr_communities)}")
+            line = line.strip()
+            if line.startswith("algo"):
+                if len(line.split(",")) == 4:
+                    lines.append(f"{line}, nr_communities")
+                else:
+                    lines.append(line)
+            elif line.startswith("demon"):
+                if len(line.split(",")) == 4:
+                    nr_communities = measure.get_number_communities(result_dir, "demon")
+                    lines.append(f"{line},{str(nr_communities)}")
+                else:
+                    lines.append(line)
+            elif line.startswith("oslom2"):
+                if len(line.split(",")) == 4:
+                    nr_communities = measure.get_number_communities(result_dir, "oslom2")
+                    lines.append(f"{line},{str(nr_communities)}")
+                else:
+                    lines.append(line)
+            elif line.startswith("wnw"):
+                if len(line.split(",")) == 4:
+                    nr_communities = measure.get_number_communities(result_dir, "wnw")
+                    lines.append(f"{line},{str(nr_communities)}")
+                else:
+                    lines.append(line)
+            elif line.startswith("ground_truth"):
+                lines.append(line)
+                gt_added = True
 
-    with open(result_file, "w") as file:
-        file.writelines(lines)
+    if not gt_added:
+        nr_communities = measure.get_number_communities(result_dir, "community")
+        lines.append(f"ground_truth,{str(nr_communities)}")
+
+    if lines:
+        with open(result_file, "w") as file:
+            line = "\n".join(lines)
+            file.write(line)
 
 
 # Get the 3 measurements of the algorithms
 def get_scores(synthetic: bool, result_dir: str, graph_name: str):
-    algos = ["demon", "oslom2", "wnw", "gt"]
+    algos = ["demon", "oslom2", "wnw", "ground_truth"]
     result_file = os.path.join(result_dir, "result.dat")
-    prev_algorithms_results = []
+    computed_results_name = []
+
+    add_nr_communities(result_dir)
 
     result_existed = False
     # Read which results are already available
@@ -140,11 +160,11 @@ def get_scores(synthetic: bool, result_dir: str, graph_name: str):
     # Append the results to the results.dat file
     with open(result_file, "a") as file:
         if not result_existed:
-            file.write("algo, nmi, omega, nf1, nr_comms\n")
+            file.write("algo, nmi, omega, nf1, nr_communities\n")
         for algo in algos:
             # For ground truth only the number of communities needs to get measured
-            if algo == "gt":
-                nr_communities = measure.get_number_communities(result_dir, algo)
+            if algo == "ground_truth":
+                nr_communities = measure.get_number_communities(result_dir, "community")
                 file.write(f"{algo},{nr_communities}\n")
             # For all other algorithms, all measures have to be taken
             elif os.path.exists(os.path.join(result_dir, algo + ".dat")):
@@ -215,4 +235,3 @@ if __name__ == '__main__':
     run_real_networks()
     run_synthetic_networks(weighted=False)
     run_synthetic_networks(weighted=True)
-

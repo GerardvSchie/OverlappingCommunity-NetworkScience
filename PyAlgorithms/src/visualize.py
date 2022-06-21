@@ -55,7 +55,7 @@ def plot_results(weighted: bool, prefix: str):
     else:
         title_prefix = "Unweighted Network "
 
-    for measure in [("NMI", 0), ("Omega Index", 1)]:
+    for measure in [("NMI", [0, 5, 9]), ("Omega Index", [1, 6, 10])]:
         fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(12, 3))
         # fig.subplots_adjust(top=0.8)
         fig.suptitle(title_prefix + measure[0])
@@ -69,7 +69,7 @@ def plot_results(weighted: bool, prefix: str):
     return N_runs, On_runs, Om_runs
 
 
-def plot(ax, title: str, x_label: str, y_label: str, index: int, data: dict):
+def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict):
     xs = []
     ys1 = []
     ys2 = []
@@ -80,9 +80,9 @@ def plot(ax, title: str, x_label: str, y_label: str, index: int, data: dict):
     # Add data to y axis for each of the algorithms
     for name, value in data:
         xs.append(value)
-        ys1.append(data[(name, value)][index])
-        ys2.append(data[(name, value)][index+3])
-        ys3.append(data[(name, value)][index+6])
+        ys1.append(data[(name, value)][indexes[0]])
+        ys2.append(data[(name, value)][indexes[1]])
+        ys3.append(data[(name, value)][indexes[2]])
 
     xs = np.array(xs)
     ys1 = np.array(ys1)
@@ -106,4 +106,3 @@ def plot(ax, title: str, x_label: str, y_label: str, index: int, data: dict):
     # Visualize the plot
     plt.legend()
     plt.ylim([0, 1])
-
