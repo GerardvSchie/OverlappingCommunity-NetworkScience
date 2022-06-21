@@ -56,3 +56,14 @@ def get_average_f1_score(results_dir: str, algo_output_name: str) -> float:
 
     # Visualising the Precision-Recall density scatter-plot
     # nf.plot()
+
+
+def get_number_communities(results_dir: str, algo_output_name: str) -> int:
+    nr_communities = 0
+    with open(os.path.join(results_dir, algo_output_name + ".dat"), "r") as file:
+        for line in file.readlines():
+            line = line.strip()
+            if line:
+                nr_communities += 1
+
+    return nr_communities

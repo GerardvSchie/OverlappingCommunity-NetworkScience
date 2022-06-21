@@ -15,7 +15,7 @@ def collect_results(dir_name):
 
     # Open file where the results will be written into
     with open(data_path, "w") as dat_file:
-        dat_file.write("config_name, demon_nmi, demon_omega, demon_nf1, oslom_nmi, oslom_omega, oslom_nf1, wnw_nmi, wnw_omega, wnw_nf1\n")
+        dat_file.write("config_name, gt_nr_comms, demon_nmi, demon_omega, demon_nf1, demon_nr_comms, oslom_nmi, oslom_omega, oslom_nf1, oslom_nr_comms, wnw_nmi, wnw_omega, wnw_nf1, demon_nr_comms\n")
 
         network_dir = os.path.join("..", dir_name + "_networks")
         network_names = [name for name in os.listdir(network_dir) if os.path.isdir(os.path.join(network_dir, name))]
@@ -29,7 +29,7 @@ def collect_results(dir_name):
                 missing_names.append(name)
                 continue
 
-            # Read the results from each individual
+            # Read the results from each individual algorithm
             with open(results_file_path, "r") as file:
                 lines = file.readlines()[1:]
                 lines = [line.strip().split(",") for line in lines]

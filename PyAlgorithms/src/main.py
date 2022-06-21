@@ -60,7 +60,6 @@ def test_graph(weighted: bool, result_dir: str) -> None:
     # Read the graph from the generated edge file into nx graph
     edges_path = os.path.join(result_dir, "network.dat")
     G = benchmark.read_graph(weighted, edges_path)
-    # print(G.edges(data=True))
 
     if weighted:
         weighted_flag = 'weight'
@@ -87,9 +86,40 @@ def test_graph(weighted: bool, result_dir: str) -> None:
     # visual_graph(G)
 
 
+# Append the number of communities
+def add_nr_communities(result_dir: str) -> None:
+    result_file = os.path.join(result_dir, "result.dat")
+    if not os.path.exists(result_file):
+        return
+
+    lines = []
+    with open(result_file, "r") as file:
+        for line in file.readlines():
+            if line.startswith("algo") and len(line.split(",")) == 4:
+                lines.append(f"{line},nr_comms")
+            elif line.startswith("demon") and len(line.split(",")) == 4:
+                nr_communities = measure.get_number_communities(result_dir, "demon")
+                lines.append(f"{line},{str(nr_communities)}")
+            elif line.startswith("oslom") and len(line.split(",")) == 4:
+                nr_communities = measure.get_number_communities(result_dir, "oslom")
+                lines.append(f"{line},{str(nr_communities)}")
+            elif line.startswith("wnw") and len(line.split(",")) == 4:
+                nr_communities = measure.get_number_communities(result_dir, "wnw")
+                lines.append(f"{line},{str(nr_communities)}")
+            elif line.startswith("gt") and len(line.split(",")) == 1:
+                nr_communities = measure.get_number_communities(result_dir, "community")
+                lines.append(f"{line},{str(nr_communities)}")
+            else:
+                nr_communities = measure.get_number_communities(result_dir, "community")
+                lines.append(f"gt,{str(nr_communities)}")
+
+    with open(result_file, "w") as file:
+        file.writelines(lines)
+
+
 # Get the 3 measurements of the algorithms
 def get_scores(synthetic: bool, result_dir: str, graph_name: str):
-    algos = ["demon", "oslom2", "wnw"]
+    algos = ["demon", "oslom2", "wnw", "gt"]
     result_file = os.path.join(result_dir, "result.dat")
     prev_algorithms_results = []
 
@@ -98,56 +128,60 @@ def get_scores(synthetic: bool, result_dir: str, graph_name: str):
     if os.path.exists(result_file):
         with open(result_file, "r") as file:
             result_existed = True
-            prev_algorithms_results = [line.split(",")[0] for line in file.readlines()]
+            computed_results_name = [line.split(",")[0] for line in file.readlines()]
 
     # Don't get results that are already present
-    for element in prev_algorithms_results:
+    for element in computed_results_name:
         if element in algos:
             algos.remove(element)
     if not algos:
         return
 
+    # Append the results to the results.dat file
     with open(result_file, "a") as file:
         if not result_existed:
-            file.write("algo, nmi, omega, nf1\n")
+            file.write("algo, nmi, omega, nf1, nr_comms\n")
         for algo in algos:
-            if os.path.exists(os.path.join(result_dir, algo + ".dat")):
+            # For ground truth only the number of communities needs to get measured
+            if algo == "gt":
+                nr_communities = measure.get_number_communities(result_dir, algo)
+                file.write(f"{algo},{nr_communities}\n")
+            # For all other algorithms, all measures have to be taken
+            elif os.path.exists(os.path.join(result_dir, algo + ".dat")):
                 nmi_score = measure.get_nmi_score(synthetic, graph_name, algo)
                 omega_index = measure.get_omega_score(result_dir, algo)
                 avg_f1 = measure.get_average_f1_score(result_dir, algo)
+                nr_communities = measure.get_number_communities(result_dir, algo)
                 # Write these results in the file
-                file.write(f"{algo},{nmi_score},{omega_index},{avg_f1}\n")
+                file.write(f"{algo},{nmi_score},{omega_index},{avg_f1},{nr_communities}\n")
 
 
+# Runs synthetic networks, weighted parameter denotes whether the syntehtic networks should have weighted edges
 def run_synthetic_networks(weighted: bool):
     results.collect_synthetic_results()
     visualize.plot_results(weighted, "synthetic")
 
+    # Base parameters
     default_n = 3000
     default_Om = 3
     default_On_frac = 0.3
 
     # Change the n parameter
-    # for n in np.arange(1000, 11000, 1000):
     for n in np.arange(1000, 7000, 1000):
-        # print("n:" + str(n))
         On = int(default_On_frac * n)
         graph_name, result_dir = create_graph(weighted, N=n, Om=default_Om, On=On)
         test_graph(weighted, result_dir)
         get_scores(True, result_dir, graph_name)
         # raise Exception("Fast stop")
 
-    # for Om in np.arange(1, 9, 1):
     for Om in np.arange(1, 7, 1):
         On = int(default_On_frac * default_n)
         graph_name, result_dir = create_graph(weighted, N=default_n, Om=Om, On=On)
         test_graph(weighted, result_dir)
         get_scores(True, result_dir, graph_name)
-        # print("Om:" + str(Om))
 
     for on_frac in np.arange(0.1, 0.7, 0.1):
         On = int(default_n * on_frac)
-        # print("On" + str(On))
         graph_name, result_dir = create_graph(weighted, N=default_n, Om=default_Om, On=On)
         test_graph(weighted, result_dir)
         get_scores(True, result_dir, graph_name)
@@ -164,7 +198,7 @@ def run_real_networks():
         utils.create_dir(result_dir)
 
         mapping = utils.get_node_mapping(graph_path)
-        # Move files to results folder
+        # Move files to result folder
         utils.copy_communities_with_mapping(graph_path, mapping)
         utils.copy_edge_file(graph_path, mapping)
 
