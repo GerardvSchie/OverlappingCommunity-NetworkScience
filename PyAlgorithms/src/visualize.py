@@ -63,8 +63,15 @@ def plot_results(weighted: bool, prefix: str):
         plot(axs[0], "Variable community size", "N", measure[0], measure[1], N_runs)
         plot(axs[1], "Variable number of overlapping nodes", "On", measure[0], measure[1], On_runs)
         plot(axs[2], "Variable number of communities", "Om", measure[0], measure[1], Om_runs)
+        # plt.legend()
+        box = axs[2].get_position()
+        axs[2].set_position([box.x0, box.y0, box.width * 0.96, box.height])
+        axs[2].legend(loc='center left', bbox_to_anchor=(1, 0.5))
         plt.tight_layout()
-        plt.show()
+        # plt.show()
+        file_name = title_prefix + measure[0] + ".png"
+        file_name = file_name.replace(" ", "")
+        plt.savefig(os.path.join("..", "plots", file_name))
 
     return N_runs, On_runs, Om_runs
 
@@ -75,14 +82,14 @@ def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict)
     ys2 = []
     ys3 = []
 
-    data = dict(sorted(data.items(), key=lambda item: item[1]))
+    data_list = sorted(list(data.items()), key=lambda item: item[0][1])
 
     # Add data to y axis for each of the algorithms
-    for name, value in data:
-        xs.append(value)
-        ys1.append(data[(name, value)][indexes[0]])
-        ys2.append(data[(name, value)][indexes[1]])
-        ys3.append(data[(name, value)][indexes[2]])
+    for ((_, param), value) in data_list:
+        xs.append(param)
+        ys1.append(value[indexes[0]])
+        ys2.append(value[indexes[1]])
+        ys3.append(value[indexes[2]])
 
     xs = np.array(xs)
     ys1 = np.array(ys1)
@@ -104,5 +111,4 @@ def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict)
     ax.set_yticks(np.arange(0, 1.1, 0.2))
 
     # Visualize the plot
-    plt.legend()
     plt.ylim([0, 1])

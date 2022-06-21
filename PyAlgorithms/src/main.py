@@ -6,7 +6,6 @@ import visualize
 import results
 import utils
 import numpy as np
-import shutil
 
 
 def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
