@@ -86,62 +86,11 @@ def test_graph(weighted: bool, result_dir: str) -> None:
     # visual_graph(G)
 
 
-# Append the number of communities
-def add_nr_communities(result_dir: str) -> None:
-    result_file = os.path.join(result_dir, "result.dat")
-    if not os.path.exists(result_file):
-        return
-
-    gt_added = False
-
-    lines = []
-    with open(result_file, "r") as file:
-        for line in file.readlines():
-            line = line.strip()
-            if line.startswith("algo"):
-                if len(line.split(",")) == 4:
-                    lines.append(f"{line}, nr_communities")
-                else:
-                    lines.append(line)
-            elif line.startswith("demon"):
-                if len(line.split(",")) == 4:
-                    nr_communities = measure.get_number_communities(result_dir, "demon")
-                    lines.append(f"{line},{str(nr_communities)}")
-                else:
-                    lines.append(line)
-            elif line.startswith("oslom2"):
-                if len(line.split(",")) == 4:
-                    nr_communities = measure.get_number_communities(result_dir, "oslom2")
-                    lines.append(f"{line},{str(nr_communities)}")
-                else:
-                    lines.append(line)
-            elif line.startswith("wnw"):
-                if len(line.split(",")) == 4:
-                    nr_communities = measure.get_number_communities(result_dir, "wnw")
-                    lines.append(f"{line},{str(nr_communities)}")
-                else:
-                    lines.append(line)
-            elif line.startswith("ground_truth"):
-                lines.append(line)
-                gt_added = True
-
-    if not gt_added:
-        nr_communities = measure.get_number_communities(result_dir, "community")
-        lines.append(f"ground_truth,{str(nr_communities)}")
-
-    if lines:
-        with open(result_file, "w") as file:
-            line = "\n".join(lines)
-            file.write(line)
-
-
 # Get the 3 measurements of the algorithms
 def get_scores(synthetic: bool, result_dir: str, graph_name: str):
     algos = ["demon", "oslom2", "wnw", "ground_truth"]
     result_file = os.path.join(result_dir, "result.dat")
     computed_results_name = []
-
-    add_nr_communities(result_dir)
 
     result_existed = False
     # Read which results are already available
