@@ -45,7 +45,7 @@ def communities_to_file(result_dir: str, communities: [int], name: str) -> None:
             file.write("\n")
 
 
-def communities_from_file(result_dir: str, name: str) -> dict[[str]]:
+def communities_from_file(result_dir: str, name: str):
     # Get file and init resulting dict
     result_file = os.path.join(result_dir, name + ".dat")
     communities = dict()
@@ -85,14 +85,18 @@ def copy_edge_file(graph_path: str, mapping=None):
                 result_file.write(result_line + '\n')
 
 
-def get_node_mapping(graph_path: str):
+def get_node_mapping(graph_path: str, weighted: bool):
     mapping = dict()
     iterator = 1
 
     with open(os.path.join(graph_path, "network.dat"), "r") as file:
         for line in file.readlines():
             line = line.strip()
-            node1, node2, _ = line.split('\t')
+            if weighted:
+                node1, node2, _ = line.split('\t')
+            else:
+                node1, node2 = line.split('\t')
+
             if node1 not in mapping:
                 mapping[node1] = str(iterator)
                 iterator += 1

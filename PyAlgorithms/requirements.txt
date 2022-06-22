@@ -2,11 +2,8 @@
 demon>=2.0.6
 matplotlib
 networkx
+# infomap
 # https://github.com/GiulioRossetti/f1-communities
 nf1
 # API same as: https://github.com/isaranto/omega_index
 omega-index-py3==0.3.1
-
-# For Lemon
-pulp
-scipy

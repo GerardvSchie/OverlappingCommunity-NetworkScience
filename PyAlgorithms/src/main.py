@@ -163,19 +163,19 @@ def run_synthetic_networks(weighted: bool):
 
 
 def run_real_networks():
-    for name in ["PPI-D1", "PPI-D2"]:
+    for name, weighted in [("PPI-D1", True), ("PPI-D2", True), ("Facebook-ego", False)]:
         # Create directories
         graph_path = os.path.join("..", "real_networks", name)
         result_dir = os.path.join(graph_path, "results")
         utils.create_dir(result_dir)
 
-        mapping = utils.get_node_mapping(graph_path)
+        mapping = utils.get_node_mapping(graph_path, weighted)
         # Move files to result folder
         utils.copy_communities_with_mapping(graph_path, mapping)
         utils.copy_edge_file(graph_path, mapping)
 
         # Test the graph
-        test_graph(True, result_dir)
+        test_graph(weighted, result_dir)
         get_scores(False, result_dir, name)
 
     # Such a short run, no need to collect results from last run
@@ -184,6 +184,6 @@ def run_real_networks():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # run_real_networks()
-    run_synthetic_networks(weighted=False)
+    run_real_networks()
+    # run_synthetic_networks(weighted=False)
     # run_synthetic_networks(weighted=True)

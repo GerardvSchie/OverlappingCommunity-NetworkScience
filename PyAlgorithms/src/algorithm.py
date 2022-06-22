@@ -7,6 +7,7 @@ import networkx as nx
 import external.WMW.weighted_weak_communities as WMW
 import external.LinkCommunity.link_clustering as LinkCommunity
 import debug
+from infomap import Infomap
 
 OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))
 
@@ -66,3 +67,8 @@ def run_wnw(G, weighted):
 
 def run_link(edges_path: str, result_dir: str, weighted: bool):
     LinkCommunity.detect_communities(None, weighted, None, result_dir, edges_path)
+
+def run_infomap(edges_path: str, weighted: bool):
+    im = Infomap(silent=True, num_trials=10)
+    im.read_file("ninetriangles.net")
+    im.run()

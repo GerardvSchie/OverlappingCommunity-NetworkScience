@@ -52,7 +52,7 @@ class HLC:
                                           inc_adj_list_dict[i] & inc_adj_list_dict[j]))
                     similarity_ratio = cal_jaccard(ai_dot_aj, n2a_sqrd[i], n2a_sqrd[j])
                     heappush(min_heap, (1 - similarity_ratio, edge_pair))
-        return [heappop(min_heap) for _ in xrange(len(min_heap))]
+        return [heappop(min_heap) for _ in range(len(min_heap))]
 
     def __init__(self, adj_list_dict, edges):
         self.adj_list_dict = adj_list_dict

@@ -2,6 +2,9 @@
 This Python project is created for comparing algorithms that detect networks with overlapping communities. 
 This means a node is not only restricted to being member of one network.
 
+data-sets:
+https://github.com/danison2/C-MLC/blob/f7927b6194f5f8d4e228974065f5afe99406eca1/data/ground_truth/com-facebook.txt
+
 ## Dependencies:
 
 Linux (sorry): I tried for a long time to keep it windows only. However, many of the algorithms and measures did not work since they were written for linux.
