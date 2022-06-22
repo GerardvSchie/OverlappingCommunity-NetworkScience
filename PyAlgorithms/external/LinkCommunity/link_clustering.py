@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import os
 from optparse import OptionParser
-from graph_io_helper import *
-from link_clustering_algo import *
+from ..LinkCommunity.graph_io_helper import *
+from ..LinkCommunity.link_clustering_algo import *
 
 
 class MyParser(OptionParser):
@@ -14,17 +13,17 @@ class MyParser(OptionParser):
 
 def detect_communities(threshold, is_weighted, dendro_flag, output_dir, basename):
     if is_weighted:
-        adj, edges, ij2wij = read_edge_list_weighted(args[0])
+        adj, edges, ij2wij = read_edge_list_weighted(basename)
     else:
-        adj, edges = read_edge_list_unweighted(args[0])
+        adj, edges = read_edge_list_unweighted(basename)
 
-    print(edges)
+    # print(edges)
     if threshold is not None:
         if is_weighted:
             edge2cid, D_thr = HLC(adj, edges).single_linkage(threshold, w=ij2wij)
         else:
             edge2cid, D_thr = HLC(adj, edges).single_linkage(threshold)
-        print("# D_thr = %f" % D_thr)
+        # print("# D_thr = %f" % D_thr)
         write_edge2cid(edge2cid, output_dir)
     else:
         if is_weighted:
@@ -41,7 +40,7 @@ def detect_communities(threshold, is_weighted, dendro_flag, output_dir, basename
         # for s, D in list_D:
         #     print >> f, s, D
         # f.close()
-        print("# D_max = %f\n# S_max = %f" % (D_max, S_max))
+        # print("# D_max = %f\n# S_max = %f" % (D_max, S_max))
         write_edge2cid(edge2cid, output_dir)
 
 

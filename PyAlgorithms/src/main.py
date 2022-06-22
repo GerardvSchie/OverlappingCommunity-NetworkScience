@@ -81,6 +81,10 @@ def test_graph(weighted: bool, result_dir: str) -> None:
         utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
                                     os.path.join(result_dir, "oslom2.dat"))
 
+    # LinkCommunities
+    if not os.path.exists(os.path.join(result_dir, "link.dat")):
+        algorithm.run_link(edges_path, result_dir, weighted)
+
     # # Visualize the network
     # visual_graph(G)
 

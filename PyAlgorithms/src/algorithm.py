@@ -4,7 +4,8 @@
 import os
 import demon as d
 import networkx as nx
-import external.WMW.weighted_weak_communities
+import external.WMW.weighted_weak_communities as WMW
+import external.LinkCommunity.link_clustering as LinkCommunity
 import debug
 
 OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))
@@ -52,12 +53,16 @@ def run_wnw(G, weighted):
     if nx.is_directed(G):
         return None
     elif weighted:
-        comms_sets = external.weighted_weak_communities.weighted_weak_communities(G, weight='weight')
+        comms_sets = WMW.weighted_weak_communities(G, weight='weight')
     else:
-        comms_sets = external.weighted_weak_communities.weighted_weak_communities(G)
+        comms_sets = WMW.weighted_weak_communities(G)
 
     # Convert to lists
     communities = []
     for comm in comms_sets:
         communities.append(list(comm))
     return communities
+
+
+def run_link(edges_path: str, result_dir: str, weighted: bool):
+    LinkCommunity.detect_communities(None, weighted, None, result_dir, edges_path)
