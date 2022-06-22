@@ -127,7 +127,7 @@ def get_scores(synthetic: bool, result_dir: str, graph_name: str):
 # Runs synthetic networks, weighted parameter denotes whether the syntehtic networks should have weighted edges
 def run_synthetic_networks(weighted: bool):
     results.collect_synthetic_results()
-    visualize.plot_results(weighted, "synthetic")
+    # visualize.plot_results(weighted, "synthetic")
 
     # Base parameters
     default_n = 3000
@@ -140,7 +140,7 @@ def run_synthetic_networks(weighted: bool):
         graph_name, result_dir = create_graph(weighted, N=n, Om=default_Om, On=On)
         test_graph(weighted, result_dir)
         get_scores(True, result_dir, graph_name)
-        # raise Exception("Fast stop")
+        raise Exception("Fast stop")
 
     for Om in np.arange(1, 7, 1):
         On = int(default_On_frac * default_n)
@@ -180,6 +180,6 @@ def run_real_networks():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    run_real_networks()
+    # run_real_networks()
     run_synthetic_networks(weighted=False)
-    run_synthetic_networks(weighted=True)
+    # run_synthetic_networks(weighted=True)

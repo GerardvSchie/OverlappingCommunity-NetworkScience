@@ -4,7 +4,7 @@
 import os
 import demon as d
 import networkx as nx
-import external.weighted_weak_communities
+import external.WMW.weighted_weak_communities
 import debug
 
 OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))

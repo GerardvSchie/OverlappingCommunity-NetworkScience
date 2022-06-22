@@ -50,25 +50,28 @@ def plot_results(weighted: bool, prefix: str):
             Om_runs[(name, om)] = csv_values
             N_runs[(name, n)] = csv_values
 
+    # Plot title
     if weighted:
-        title_prefix = "Weighted Network "
+        title_prefix = "Weighted network "
     else:
-        title_prefix = "Unweighted Network "
+        title_prefix = "Unweighted network "
 
-    for measure in [("NMI", [0, 5, 9]), ("Omega Index", [1, 6, 10])]:
+    for measure in [("NMI", [0, 5, 9]), ("Omega Index", [1, 6, 10]), ("number of communities", [3, 4, 8, 12])]:
         fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(12, 3))
-        # fig.subplots_adjust(top=0.8)
         fig.suptitle(title_prefix + measure[0])
 
+        # Plot information for each variable
         plot(axs[0], "Variable community size", "N", measure[0], measure[1], N_runs)
         plot(axs[1], "Variable number of overlapping nodes", "On", measure[0], measure[1], On_runs)
         plot(axs[2], "Variable number of communities", "Om", measure[0], measure[1], Om_runs)
-        # plt.legend()
-        box = axs[2].get_position()
-        axs[2].set_position([box.x0, box.y0, box.width * 0.96, box.height])
-        axs[2].legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+        # Put legend right of the figure
+        box = axs[-1].get_position()
+        axs[-1].set_position([box.x0, box.y0, box.width * 0.96, box.height])
+        axs[-1].legend(loc='center left', bbox_to_anchor=(1, 0.5))
         plt.tight_layout()
-        # plt.show()
+
+        # Save plot to file
         file_name = title_prefix + measure[0] + ".png"
         file_name = file_name.replace(" ", "")
         plt.savefig(os.path.join("..", "plots", file_name))
@@ -81,20 +84,27 @@ def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict)
     ys1 = []
     ys2 = []
     ys3 = []
+    ys4 = []
 
     data_list = sorted(list(data.items()), key=lambda item: item[0][1])
 
     # Add data to y axis for each of the algorithms
     for ((_, param), value) in data_list:
         xs.append(param)
-        ys1.append(value[indexes[0]])
-        ys2.append(value[indexes[1]])
-        ys3.append(value[indexes[2]])
+
+        # Put them into the 3 or 4 bins
+        if len(indexes) == 4:
+            for axis_list, index in [(ys1, indexes[0]), (ys2, indexes[2]), (ys3, indexes[3]), (ys4, indexes[1])]:
+                axis_list.append(value[index])
+        else:
+            for axis_list, index in [(ys1, indexes[0]), (ys2, indexes[1]), (ys3, indexes[2])]:
+                axis_list.append(value[index])
 
     xs = np.array(xs)
     ys1 = np.array(ys1)
     ys2 = np.array(ys2)
     ys3 = np.array(ys3)
+    ys4 = np.array(ys4)
 
     # Set labels
     ax.set_title(title)
@@ -102,13 +112,15 @@ def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict)
     ax.set_ylabel(y_label)
 
     # Plot the information
-    ax.plot(xs, ys1, '-o', label="Demon")
-    ax.plot(xs, ys2, '-o', label="Oslom")
-    ax.plot(xs, ys3, '-o', label="O-HAMUHI")
+    ax.plot(xs, ys1, '--o', color='red', label="Demon", markerfacecolor="None")
+    ax.plot(xs, ys2, '-^', color='orange', label="Oslom", markerfacecolor="None")
+    ax.plot(xs, ys3, '-.s', color='green', label="O-HAMUHI", markerfacecolor="None")
 
     ax.grid(axis='y')
 
-    ax.set_yticks(np.arange(0, 1.1, 0.2))
-
-    # Visualize the plot
-    plt.ylim([0, 1])
+    if len(ys4) != 0:
+        ax.plot(xs, ys4, ':*', color='blue', label="ground truth", markerfacecolor="None")
+        ax.set_ylim(bottom=0)
+    else:
+        ax.set_yticks(np.arange(0, 1.1, 0.2))
+        # plt.ylim([0, 1])

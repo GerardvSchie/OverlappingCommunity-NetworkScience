@@ -37,6 +37,3 @@ def collect_results(dir_name):
                 lines = [line[1:] for line in lines]
                 concat_list = ",".join([j for i in lines for j in i])
                 dat_file.write(name + "," + concat_list + "\n")
-
-    # Print all the directories that did not have results
-    print(f"missing result files: {missing_names}")

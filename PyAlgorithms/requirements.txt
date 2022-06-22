@@ -1,9 +1,12 @@
 # https://github.com/GiulioRossetti/DEMON
 demon>=2.0.6
 matplotlib
-scipy
-# API same as: https://github.com/isaranto/omega_index
-omega-index-py3==0.3.1
+networkx
 # https://github.com/GiulioRossetti/f1-communities
 nf1
-networkx
+# API same as: https://github.com/isaranto/omega_index
+omega-index-py3==0.3.1
+
+# For Lemon
+pulp
+scipy
