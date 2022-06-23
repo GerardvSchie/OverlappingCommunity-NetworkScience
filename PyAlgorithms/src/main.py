@@ -7,11 +7,18 @@ import results
 import utils
 import numpy as np
 
+expected_fields = [
+    "demon_nmi", "demon_omega-index", "demon_number-communities",
+    "oslom2_nmi", "oslom2_omega-index", "oslom2_number-communities",
+    "O-HAMUHI_nmi", "O-HAMUHI_omega-index", "O-HAMUHI_number-communities",
+    "ground-truth_number-communities"
+]
 
-def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
+
+def create_graph(nr_run: int, weighted: bool, N: int, Om: int, On: int) -> (str, str):
     # Create a synthetic network with given name
     # Generate graph using LFR benchmark
-    graph_name = f"N{N}_Om{Om}_On{On}"
+    graph_name = f"N{N}_Om{Om}_On{On}_{nr_run}"
     if weighted:
         graph_name = "W_" + graph_name
     else:
@@ -32,13 +39,13 @@ def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
         benchmark.create_graph(
             weighted=weighted,
             N=N,
-            k=23, #k=20
-            maxk=30, #maxk=50
+            k=6, #k=20
+            maxk=35, #maxk=50
             mixing_topology=0.4,
             mixing_weights=0.1,
             tow1=-2,
             tow2=-1,
-            minc=20,
+            minc=4,
             maxc=100,
             on=On,
             om=Om,
@@ -46,7 +53,7 @@ def create_graph(weighted:bool, N:int, Om:int, On:int) -> (str, str):
         )
 
     # Copy over communities and network file
-    if not os.path.exists(os.path.join(result_dir, "community.dat")) or not os.path.exists(os.path.join(result_dir, "network.dat")):
+    if not os.path.exists(os.path.join(result_dir, "ground-truth.dat")) or not os.path.exists(os.path.join(result_dir, "network.dat")):
         # Convert community file to NMI format
         benchmark.community_to_nmi_file(graph_path)
         utils.copy_edge_file(graph_path)
@@ -91,42 +98,39 @@ def test_graph(weighted: bool, result_dir: str) -> None:
 
 # Get the 3 measurements of the algorithms
 def get_scores(synthetic: bool, result_dir: str, graph_name: str):
-    algos = ["demon", "oslom2", "wnw", "ground_truth"]
+    fields_to_compute = expected_fields
     result_file = os.path.join(result_dir, "result.dat")
-    computed_results_name = []
 
-    result_existed = False
-    # Read which results are already available
+    # Read which results are already computed
     if os.path.exists(result_file):
         with open(result_file, "r") as file:
-            result_existed = True
-            computed_results_name = [line.split(",")[0] for line in file.readlines()]
+            for line in file.readlines():
+                if not line:
+                    continue
 
-    # Don't get results that are already present
-    for element in computed_results_name:
-        if element in algos:
-            algos.remove(element)
-    if not algos:
+                fields_to_compute.remove(line.strip().split(",")[0])
+
+    # Everything had already been computed
+    if len(fields_to_compute) == 0:
         return
 
-    # Append the results to the results.dat file
+    # Compute and append the to-be-computed fields to the results.dat file
     with open(result_file, "a") as file:
-        if not result_existed:
-            file.write("algo, nmi, omega, nf1, nr_communities\n")
-        for algo in algos:
-            # For ground truth only the number of communities needs to get measured
-            if algo == "ground_truth":
-                nr_communities = measure.get_number_communities(result_dir, "community")
-                file.write(f"{algo},{nr_communities}\n")
-            # For all other algorithms, all measures have to be taken
-            elif os.path.exists(os.path.join(result_dir, algo + ".dat")):
-                nmi_score = measure.get_nmi_score(synthetic, graph_name, algo)
-                omega_index = measure.get_omega_score(result_dir, algo)
-                avg_f1 = measure.get_average_f1_score(result_dir, algo)
-                nr_communities = measure.get_number_communities(result_dir, algo)
-                # Write these results in the file
-                file.write(f"{algo},{nmi_score},{omega_index},{avg_f1},{nr_communities}\n")
+        for field in fields_to_compute:
+            algo, measure = field.split("_")[:1]
 
+            # For each measure that still need to be computed do so
+            if measure == "number-communities":
+                nr_communities = measure.get_number_communities(result_dir, algo)
+                file.write(f"{algo}_{measure},{nr_communities}")
+            elif measure == "nmi":
+                nmi_score = measure.get_nmi_score(synthetic, graph_name, algo)
+                file.write(f"{algo}_{measure},{nmi_score}")
+            elif measure == "omega-index":
+                omega_index = measure.get_omega_score(result_dir, algo)
+                file.write(f"{algo}_{measure},{omega_index}")
+            else:
+                raise NotImplementedError("Measure not implemented")
 
 # Runs synthetic networks, weighted parameter denotes whether the syntehtic networks should have weighted edges
 def run_synthetic_networks(weighted: bool):
@@ -134,29 +138,31 @@ def run_synthetic_networks(weighted: bool):
     # visualize.plot_results(weighted, "synthetic")
 
     # Base parameters
-    default_n = 3000
-    default_Om = 3
-    default_On_frac = 0.3
+    default_n = 800
+    default_Om = 2
+    default_On_frac = 0.20
 
-    # Change the n parameter
-    for n in np.arange(1000, 7000, 1000):
-        On = int(default_On_frac * n)
-        graph_name, result_dir = create_graph(weighted, N=n, Om=default_Om, On=On)
-        test_graph(weighted, result_dir)
-        get_scores(True, result_dir, graph_name)
-        raise Exception("Fast stop")
+    # Run experiment set 5 times
+    for nr_run in np.arange(1, 6, 1):
+        # Change the n parameter
+        for n in np.arange(100, 2000, 200):
+            On = int(default_On_frac * n)
+            graph_name, result_dir = create_graph(nr_run, weighted, N=n, Om=default_Om, On=On)
+            test_graph(weighted, result_dir)
+            get_scores(True, result_dir, graph_name)
+            raise Exception("Fast stop")
 
-    for Om in np.arange(1, 7, 1):
-        On = int(default_On_frac * default_n)
-        graph_name, result_dir = create_graph(weighted, N=default_n, Om=Om, On=On)
-        test_graph(weighted, result_dir)
-        get_scores(True, result_dir, graph_name)
+        for Om in np.arange(1, 6, 1):
+            On = int(default_On_frac * default_n)
+            graph_name, result_dir = create_graph(nr_run, weighted, N=default_n, Om=Om, On=On)
+            test_graph(weighted, result_dir)
+            get_scores(True, result_dir, graph_name)
 
-    for on_frac in np.arange(0.1, 0.7, 0.1):
-        On = int(default_n * on_frac)
-        graph_name, result_dir = create_graph(weighted, N=default_n, Om=default_Om, On=On)
-        test_graph(weighted, result_dir)
-        get_scores(True, result_dir, graph_name)
+        for on_frac in np.arange(0.1, 0.6, 0.1):
+            On = int(default_n * on_frac)
+            graph_name, result_dir = create_graph(nr_run, weighted, N=default_n, Om=default_Om, On=On)
+            test_graph(weighted, result_dir)
+            get_scores(True, result_dir, graph_name)
 
     # Algorithm is done running, collect the latest results and write it to the file
     results.collect_synthetic_results()

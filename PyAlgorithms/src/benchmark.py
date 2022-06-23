@@ -82,7 +82,7 @@ def community_to_nmi_file(graph_dir: str):
                 communities[nr].append(node_nr)
 
     # Write the communities in file so each line has a line for each community
-    nmi_output_file = os.path.join(graph_dir, "results", "community.dat")
+    nmi_output_file = os.path.join(graph_dir, "results", "ground-truth.dat")
     with open(nmi_output_file, "w") as file:
         # Write all members of the community per line
         for community in communities:

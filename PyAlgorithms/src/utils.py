@@ -117,7 +117,7 @@ def get_node_mapping(graph_path: str, weighted: bool):
 
 def copy_communities_with_mapping(graph_path, mapping):
     with open(os.path.join(graph_path, "community.dat"), 'r') as in_file:
-        with open(os.path.join(graph_path, "results", "community.dat"), 'w') as out_file:
+        with open(os.path.join(graph_path, "results", "ground-truth.dat"), 'w') as out_file:
             for line in in_file.readlines():
                 line = line.strip()
                 nodes = line.split()

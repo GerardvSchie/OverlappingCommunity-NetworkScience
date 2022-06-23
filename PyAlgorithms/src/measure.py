@@ -6,7 +6,8 @@ from nf1 import NF1
 import debug
 
 NMI_BIN = os.path.abspath(os.path.join("..", "..", "Measure_NMI", "mutual"))
-
+# MEASURES = ["nf1", "nmi", "omega-index", "number-communities"]
+MEASURES = ["nmi", "omega-index", "number-communities"]
 
 # Compute the NMI score
 # https://sites.google.com/site/andrealancichinetti/mutual
@@ -20,7 +21,7 @@ def get_nmi_score(synthetic: bool, graph_name: str, output_name: str) -> float:
 
     command = [
         NMI_BIN,
-        f"../{folder_name}/{graph_name}/results/community.dat",
+        f"../{folder_name}/{graph_name}/results/ground-truth.dat",
         f"../{folder_name}/{graph_name}/results/{output_name}.dat"
     ]
 
@@ -35,7 +36,7 @@ def get_nmi_score(synthetic: bool, graph_name: str, output_name: str) -> float:
 # Compares omega score with the ground truth
 def get_omega_score(results_dir: str, algo_output_name: str) -> float:
     debug.print_msg("Run Omega")
-    ground_truth = utils.communities_from_file(results_dir, "community")
+    ground_truth = utils.communities_from_file(results_dir, "ground-truth")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     o = omega_index_py3.Omega(output, ground_truth)
@@ -45,7 +46,7 @@ def get_omega_score(results_dir: str, algo_output_name: str) -> float:
 # Computing the NF1 scores and statistics
 def get_average_f1_score(results_dir: str, algo_output_name: str) -> float:
     debug.print_msg("Run NF1")
-    ground_truth = utils.communities_from_file(results_dir, "community")
+    ground_truth = utils.communities_from_file(results_dir, "ground-truth")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
     nf = NF1(output, ground_truth)
@@ -60,6 +61,8 @@ def get_average_f1_score(results_dir: str, algo_output_name: str) -> float:
 
 def get_number_communities(results_dir: str, algo_output_name: str) -> int:
     nr_communities = 0
+
+    # Count number of communities
     with open(os.path.join(results_dir, algo_output_name + ".dat"), "r") as file:
         for line in file.readlines():
             line = line.strip()

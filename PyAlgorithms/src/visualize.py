@@ -4,7 +4,7 @@ import utils
 import numpy as np
 import matplotlib.pyplot as plt
 
-configuration = r'^(U?)W_N(\d+)_Om(\d+)_On(\d+)'
+configuration = r'^(U?)W_N(\d+)_Om(\d+)_On(\d+)_(\d+)'
 
 
 def plot_results(weighted: bool, prefix: str):
@@ -23,7 +23,7 @@ def plot_results(weighted: bool, prefix: str):
     for line in lines:
         # Read the configuration values
         match = re.match(configuration, line)
-        uw, n, om, on = match[1], int(match[2]), int(match[3]), int(match[4])
+        uw, n, om, on, nr_run = match[1], int(match[2]), int(match[3]), int(match[4]), int(match[5])
 
         # Only consider the weighted results when we are trying to plot them
         if uw and weighted:
@@ -39,16 +39,16 @@ def plot_results(weighted: bool, prefix: str):
 
         # Put the results in each figure
         if n != 3000:
-            N_runs[(name, n)] = csv_values
+            N_runs[(name, n, nr_run)] = csv_values
         elif om != 3:
-            Om_runs[(name, om)] = csv_values
+            Om_runs[(name, om, nr_run)] = csv_values
         elif on_frac != 0.3:
-            On_runs[(name, on)] = csv_values
+            On_runs[(name, on, nr_run)] = csv_values
         # The default values for parameters go in each plot
         else:
-            On_runs[(name, on)] = csv_values
-            Om_runs[(name, om)] = csv_values
-            N_runs[(name, n)] = csv_values
+            On_runs[(name, on, nr_run)] = csv_values
+            Om_runs[(name, om, nr_run)] = csv_values
+            N_runs[(name, n, nr_run)] = csv_values
 
     # Plot title
     if weighted:
@@ -81,16 +81,24 @@ def plot_results(weighted: bool, prefix: str):
 
 def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict):
     xs = []
-    ys1 = []
-    ys2 = []
-    ys3 = []
-    ys4 = []
+    ys = (dict(), dict(), dict(), dict())
 
     data_list = sorted(list(data.items()), key=lambda item: item[0][1])
 
+    for ((_, param, nr_run), values) in data_list:
+        for index in range(len(indexes)):
+            if not ys[index][param]:
+                ys[index][param] = []
+            ys[index][param] = ys[index][param].append(values[index])
+
+    ys = [for dic in ys]
+
     # Add data to y axis for each of the algorithms
-    for ((_, param), value) in data_list:
+    for ((_, param, nr_run), value) in data_list:
         xs.append(param)
+        for index in range(len(indexes)):
+
+            ys[index][(param, nr_run)] = value[index]
 
         # Put them into the 3 or 4 bins
         if len(indexes) == 4:
@@ -100,11 +108,11 @@ def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict)
             for axis_list, index in [(ys1, indexes[0]), (ys2, indexes[1]), (ys3, indexes[2])]:
                 axis_list.append(value[index])
 
-    xs = np.array(xs)
-    ys1 = np.array(ys1)
-    ys2 = np.array(ys2)
-    ys3 = np.array(ys3)
-    ys4 = np.array(ys4)
+    # xs = np.array(xs)
+    # ys1 = np.array(ys1)
+    # ys2 = np.array(ys2)
+    # ys3 = np.array(ys3)
+    # ys4 = np.array(ys4)
 
     # Set labels
     ax.set_title(title)
