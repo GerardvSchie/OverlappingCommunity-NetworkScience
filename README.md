@@ -13,11 +13,13 @@ General dependencies:
 * java
 * gcc
 
+After that run `sh build_all.sh` and the building steps listed below will be done automatically.
+
 ## Generating synthetic networks
 
 LFR-Benchmark can create synthetic networks given some parameters.
 
-### Building
+### Building (Automatically done in shell script)
 
 This project needs to get built so the Python code can access it.
 
@@ -47,7 +49,7 @@ Is situated in a python file in directory external of the python project. The so
 
 It is a separate directory that contains the code. It is a c++ project that needs to get built seperately. The instructions are listed below. Oslom 2 is chosen since it is a faster version than the original Oslom, and it does give similar results.
 
-#### Building OSLOM
+#### Building OSLOM (Automatically done in shell script)
 
 Directory: Algo_Oslom2
 
@@ -61,7 +63,7 @@ Again, in the readme of the project are examples that can be ran to verify succe
 
 This is a c++ package that needs to get compiled.
 
-#### Build instructions
+#### Build instructions (Automatically done in shell script)
 
 `cd ./Measure_NMI`
 `make`
