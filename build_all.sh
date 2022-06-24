@@ -37,7 +37,12 @@ cd PyAlgorithms
 python3 -m pip install -r requirements.txt
 cd "${REPO_DIR}"
 
-echo "everything is built, now you can run main.py"
+# Finalize
+echo ""
+echo "everything is built, now you can do the following:"
+echo "cd PyAlgorithms/src"
+echo "python3 main.py"
+echo ""
 
 # Remove trap
 trap - EXIT
