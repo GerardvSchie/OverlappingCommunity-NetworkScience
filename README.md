@@ -8,6 +8,14 @@ Note: This entire repository depends on linux. I have tried to make it work for 
 
 I think it does not depend on java anymore.
 
+General dependencies:
+
+* Python 3.9 + pip
+* cmake
+* java
+* gcc
+
+
 **TODO: Link all the source code locations**
 
 ## Generating synthetic networks

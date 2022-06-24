@@ -3,18 +3,21 @@ import re
 import utils
 import numpy as np
 import matplotlib.pyplot as plt
+import measure
+import algorithm
 
-configuration = r'^(U?)W_N(\d+)_Om(\d+)_On(\d+)_(\d+)'
+configuration = r'^((U?)W_N(\d+)_Om(\d+)_On(\d+))_(\d+)'
 
 
-def plot_results(weighted: bool, prefix: str):
+# Collects results into dictionaries
+def collect_bins(weighted: bool, prefix: str):
     # Skip column names of file since those are column names
     results_file = os.path.join("..", prefix + "_results.dat")
     if not results_file:
         print("There are no results yet, it will first generate them")
-        return
+        return None, None, None
 
-    lines = utils.read_file(results_file)[1:]
+    lines = utils.read_file(results_file)
 
     N_runs = dict()
     Om_runs = dict()
@@ -23,7 +26,7 @@ def plot_results(weighted: bool, prefix: str):
     for line in lines:
         # Read the configuration values
         match = re.match(configuration, line)
-        uw, n, om, on, nr_run = match[1], int(match[2]), int(match[3]), int(match[4]), int(match[5])
+        name, uw, n, om, on, nr_run = match[1], match[2], int(match[3]), int(match[4]), int(match[5]), int(match[6])
 
         # Only consider the weighted results when we are trying to plot them
         if uw and weighted:
@@ -32,23 +35,39 @@ def plot_results(weighted: bool, prefix: str):
             continue
 
         # Configuration name as first and all the values after to floats
-        name, *csv_values = line.split(",")
-        csv_values = [float(value) for value in csv_values]
+        _, parameter, value = line.split(",")[:3]
+        value = float(value)
 
         on_frac = on / n
 
         # Put the results in each figure
-        if n != 3000:
-            N_runs[(name, n, nr_run)] = csv_values
+        if n != 700:
+            add_value(N_runs, parameter, n, value)
         elif om != 3:
-            Om_runs[(name, om, nr_run)] = csv_values
-        elif on_frac != 0.3:
-            On_runs[(name, on, nr_run)] = csv_values
+            add_value(Om_runs, parameter, om, value)
+        elif on_frac != 0.2:
+            add_value(On_runs, parameter, on, value)
         # The default values for parameters go in each plot
         else:
-            On_runs[(name, on, nr_run)] = csv_values
-            Om_runs[(name, om, nr_run)] = csv_values
-            N_runs[(name, n, nr_run)] = csv_values
+            # Add list if it didnt exist yet
+            add_value(N_runs, parameter, n, value)
+            add_value(Om_runs, parameter, om, value)
+            add_value(On_runs, parameter, on, value)
+
+    return N_runs, On_runs, Om_runs
+
+
+def add_value(data_dict, parameter, x, value):
+    if not (parameter, x) in data_dict:
+        data_dict[(parameter, x)] = []
+    data_dict[(parameter, x)].append(value)
+
+
+def plot_results(weighted: bool, prefix: str):
+    N_runs, On_runs, Om_runs = collect_bins(weighted, prefix)
+
+    plot_dir = os.path.join("..", "plots")
+    utils.create_dir(plot_dir)
 
     # Plot title
     if weighted:
@@ -56,14 +75,14 @@ def plot_results(weighted: bool, prefix: str):
     else:
         title_prefix = "Unweighted network "
 
-    for measure in [("NMI", [0, 5, 9]), ("Omega Index", [1, 6, 10]), ("number of communities", [3, 4, 8, 12])]:
+    for measure_name in measure.MEASURES:
         fig, axs = plt.subplots(nrows=1, ncols=3, figsize=(12, 3))
-        fig.suptitle(title_prefix + measure[0])
+        fig.suptitle(title_prefix + measure_name.replace("-", " "))
 
         # Plot information for each variable
-        plot(axs[0], "Variable community size", "N", measure[0], measure[1], N_runs)
-        plot(axs[1], "Variable number of overlapping nodes", "On", measure[0], measure[1], On_runs)
-        plot(axs[2], "Variable number of communities", "Om", measure[0], measure[1], Om_runs)
+        plot_data(axs[0], "Variable community size", "N", measure_name, N_runs)
+        plot_data(axs[1], "Variable number of overlapping nodes", "On", measure_name, On_runs)
+        plot_data(axs[2], "Variable number of communities", "Om", measure_name, Om_runs)
 
         # Put legend right of the figure
         box = axs[-1].get_position()
@@ -72,63 +91,65 @@ def plot_results(weighted: bool, prefix: str):
         plt.tight_layout()
 
         # Save plot to file
-        file_name = title_prefix + measure[0] + ".png"
-        file_name = file_name.replace(" ", "")
-        plt.savefig(os.path.join("..", "plots", file_name))
+        file_name = (title_prefix + measure_name + ".png").replace(" ", "")
+        plt.savefig(os.path.join(plot_dir, file_name))
 
-    return N_runs, On_runs, Om_runs
+    # return N_runs, On_runs, Om_runs
 
 
-def plot(ax, title: str, x_label: str, y_label: str, indexes: [int], data: dict):
+def plot_data(ax, title: str, x_label: str, measure_name: str, data: dict):
     xs = []
-    ys = (dict(), dict(), dict(), dict())
+    ys = [[] for _ in range(len(algorithm.ALGOS))]
+    y_stderr = [[] for _ in range(len(algorithm.ALGOS))]
 
     data_list = sorted(list(data.items()), key=lambda item: item[0][1])
 
-    for ((_, param, nr_run), values) in data_list:
-        for index in range(len(indexes)):
-            if not ys[index][param]:
-                ys[index][param] = []
-            ys[index][param] = ys[index][param].append(values[index])
+    prev_x = -1
+    # Go through each
+    for ((parameter, x), values) in data_list:
+        # Add each unique x
+        if x != prev_x:
+            xs.append(x)
+            prev_x = x
 
-    ys = [for dic in ys]
+        parameter_algo, parameter_measure = parameter.split("_")
+        # Not of the current measure
+        if parameter_measure != measure_name:
+            continue
 
-    # Add data to y axis for each of the algorithms
-    for ((_, param, nr_run), value) in data_list:
-        xs.append(param)
-        for index in range(len(indexes)):
+        index = algorithm.ALGOS.index(parameter_algo)
+        y_mean = sum(values) / float(len(values))
+        ys[index].append(y_mean)
 
-            ys[index][(param, nr_run)] = value[index]
+        y_std = np.std(values, ddof=1)
+        y_err = y_std / np.sqrt(len(values))
+        y_stderr[index].append(y_err)
 
-        # Put them into the 3 or 4 bins
-        if len(indexes) == 4:
-            for axis_list, index in [(ys1, indexes[0]), (ys2, indexes[2]), (ys3, indexes[3]), (ys4, indexes[1])]:
-                axis_list.append(value[index])
-        else:
-            for axis_list, index in [(ys1, indexes[0]), (ys2, indexes[1]), (ys3, indexes[2])]:
-                axis_list.append(value[index])
-
-    # xs = np.array(xs)
-    # ys1 = np.array(ys1)
-    # ys2 = np.array(ys2)
-    # ys3 = np.array(ys3)
-    # ys4 = np.array(ys4)
 
     # Set labels
     ax.set_title(title)
     ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
+    ax.set_ylabel(measure_name.replace("-", " "))
+
+    if x_label == "N":
+        ax.set_xticks(xs[::2])
+    else:
+        ax.set_xticks(xs)
 
     # Plot the information
-    ax.plot(xs, ys1, '--o', color='red', label="Demon", markerfacecolor="None")
-    ax.plot(xs, ys2, '-^', color='orange', label="Oslom", markerfacecolor="None")
-    ax.plot(xs, ys3, '-.s', color='green', label="O-HAMUHI", markerfacecolor="None")
+    ax.plot(xs, ys[0], linestyle='solid', marker='o', color='red', label=algorithm.ALGOS[0])
+    ax.errorbar(xs, ys[0], yerr=y_stderr[0], fmt=".k")
+    ax.plot(xs, ys[1], linestyle='dotted', marker='^', color='orange', label=algorithm.ALGOS[1])
+    ax.errorbar(xs, ys[1], yerr=y_stderr[1], fmt=".k")
+    ax.plot(xs, ys[2], linestyle='dashdot', marker='s', color='green', label=algorithm.ALGOS[2])
+    ax.errorbar(xs, ys[2], yerr=y_stderr[2], fmt=".k")
+    # ax.plot(xs, ys[3], linestyle='dashed', marker='v', color='purple', label=algorithm.ALGOS[3], markerfacecolor="None")
 
     ax.grid(axis='y')
 
-    if len(ys4) != 0:
-        ax.plot(xs, ys4, ':*', color='blue', label="ground truth", markerfacecolor="None")
-        ax.set_ylim(bottom=0)
+    if len(ys[-1]) != 0:
+        ax.plot(xs, ys[-1], linestyle='dashed', marker='*', color='blue', label=algorithm.ALGOS[-1].replace("-", " "))
+        ax.errorbar(xs, ys[-1], yerr=y_stderr[-1], fmt=".k")
     else:
         ax.set_yticks(np.arange(0, 1.1, 0.2))
         # plt.ylim([0, 1])

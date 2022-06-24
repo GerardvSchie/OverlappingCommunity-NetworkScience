@@ -50,10 +50,6 @@ def write_edge2cid(e2c, dirname, delimiter="\t"):
     # renumber community id's to be sequential, makes output file human-readable
     c2c = dict((c, i + 1) for i, c in enumerate(sorted(list(set(e2c.values())))))  # ugly...
 
-    # with open(filename + ".edge2comm.txt", 'w') as f:
-    #     for edge, coom in sorted(e2c.items(), key=itemgetter(1)):
-    #         f.write(delimiter.join(map(str, [edge[0], edge[1], c2c[coom]])) + '\n')
-
     cid2edges, cid2nodes = defaultdict(set), defaultdict(set)  # faster to recreate here than
     for edge, cid in e2c.items():  # to keep copying all dicts
         cid2edges[cid].add(edge)  # during the linkage...
@@ -61,13 +57,9 @@ def write_edge2cid(e2c, dirname, delimiter="\t"):
     cid2edges, cid2nodes = dict(cid2edges), dict(cid2nodes)
 
     # with open(filename + ".comm2edges.txt", 'w') as f:
-    with open(os.path.join(dirname, "link.dat"), 'w') as g:
+    with open(os.path.join(dirname, "LinkCommunity.dat"), 'w') as g:
         for cid in sorted(cid2edges.keys()):
-            strcid = str(c2c[cid])
             nodes = list(map(str, cid2nodes[cid]))
-            # edges = ["%s,%s" % (ni, nj) for ni, nj in cid2edges[cid]]
-            # f.write(delimiter.join([strcid] + edges))
-            # f.write("\n")
             g.write(" ".join(nodes))
             g.write("\n")
 

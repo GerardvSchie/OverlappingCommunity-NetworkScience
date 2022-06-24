@@ -8,10 +8,11 @@ import utils
 import numpy as np
 
 expected_fields = [
-    "demon_nmi", "demon_omega-index", "demon_number-communities",
-    "oslom2_nmi", "oslom2_omega-index", "oslom2_number-communities",
-    "O-HAMUHI_nmi", "O-HAMUHI_omega-index", "O-HAMUHI_number-communities",
-    "ground-truth_number-communities"
+    "Demon_NMI", "Demon_Omega-Index", "Demon_number-of-communities",
+    "Oslom_NMI", "Oslom_Omega-Index", "Oslom_number-of-communities",
+    "O-HAMUHI_NMI", "O-HAMUHI_Omega-Index", "O-HAMUHI_number-of-communities",
+    # "LinkCommunity_NMI", "LinkCommunity_Omega-Index", "LinkCommunity_number-of-communities",
+    "ground-truth_number-of-communities"
 ]
 
 
@@ -39,14 +40,14 @@ def create_graph(nr_run: int, weighted: bool, N: int, Om: int, On: int) -> (str,
         benchmark.create_graph(
             weighted=weighted,
             N=N,
-            k=6, #k=20
-            maxk=35, #maxk=50
+            k=20, #k=20
+            maxk=25, #maxk=50
             mixing_topology=0.4,
             mixing_weights=0.1,
             tow1=-2,
             tow2=-1,
             minc=4,
-            maxc=100,
+            maxc=40,
             on=On,
             om=Om,
             graph_dir=graph_path
@@ -72,33 +73,38 @@ def test_graph(weighted: bool, result_dir: str) -> None:
     else:
         weighted_flag = None
 
-    # WNW
-    if not os.path.exists(os.path.join(result_dir, "wnw.dat")):
-        wnw_communities = algorithm.run_wnw(G, weighted=weighted_flag)
-        utils.communities_to_file(result_dir, wnw_communities, "wnw")
+    for algo in algorithm.ALGOS:
+        # Nothing has to get done for the ground truth
+        if algo == "ground-truth":
+            continue
 
-    # DEMON
-    if not os.path.exists(os.path.join(result_dir, "demon.dat")):
-        demon_communities = algorithm.run_demon(G)
-        utils.communities_to_file(result_dir, demon_communities, "demon")
+        # Algorithm has already been ran
+        if os.path.exists(os.path.join(result_dir, algo + ".dat")):
+            continue
 
-    # OSLOM2
-    if not os.path.exists(os.path.join(result_dir, "oslom2.dat")):
-        algorithm.run_oslom2(edges_path, weighted)
-        utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
-                                    os.path.join(result_dir, "oslom2.dat"))
-
-    # LinkCommunities
-    if not os.path.exists(os.path.join(result_dir, "link.dat")):
-        algorithm.run_link(edges_path, result_dir, weighted)
+        if algo == "O-HAMUHI":
+            wnw_communities = algorithm.run_wnw(G, weighted=weighted_flag)
+            utils.communities_to_file(result_dir, wnw_communities, "O-HAMUHI")
+        elif algo == "Demon":
+            demon_communities = algorithm.run_demon(G)
+            utils.communities_to_file(result_dir, demon_communities, "Demon")
+        elif algo == "Oslom":
+            algorithm.run_oslom2(edges_path, weighted)
+            utils.copy_without_comments(os.path.join(result_dir, "network.dat_oslo_files", "tp"),
+                                        os.path.join(result_dir, "Oslom.dat"))
+        elif algo == "LinkCommunity":
+            algorithm.run_link(edges_path, result_dir, weighted)
+        else:
+            raise NotImplementedError("Algorithm not implemented")
 
     # # Visualize the network
     # visual_graph(G)
 
 
 # Get the 3 measurements of the algorithms
-def get_scores(synthetic: bool, result_dir: str, graph_name: str):
-    fields_to_compute = expected_fields
+# Returns whether the score has been changed
+def get_scores(synthetic: bool, result_dir: str, graph_name: str) -> bool:
+    fields_to_compute = expected_fields.copy()
     result_file = os.path.join(result_dir, "result.dat")
 
     # Read which results are already computed
@@ -108,64 +114,80 @@ def get_scores(synthetic: bool, result_dir: str, graph_name: str):
                 if not line:
                     continue
 
-                fields_to_compute.remove(line.strip().split(",")[0])
+                computed_field = line.strip().split(",")[0]
+                fields_to_compute.remove(computed_field)
+
+    assert os.path.exists(result_file) or len(fields_to_compute) > 0
 
     # Everything had already been computed
     if len(fields_to_compute) == 0:
-        return
+        return False
 
     # Compute and append the to-be-computed fields to the results.dat file
     with open(result_file, "a") as file:
         for field in fields_to_compute:
-            algo, measure = field.split("_")[:1]
+            algo, measure_name = field.split("_")[:2]
 
             # For each measure that still need to be computed do so
-            if measure == "number-communities":
+            if measure_name == "number-of-communities":
                 nr_communities = measure.get_number_communities(result_dir, algo)
-                file.write(f"{algo}_{measure},{nr_communities}")
-            elif measure == "nmi":
+                file.write(f"{algo}_{measure_name},{nr_communities}\n")
+            elif measure_name == "NMI":
                 nmi_score = measure.get_nmi_score(synthetic, graph_name, algo)
-                file.write(f"{algo}_{measure},{nmi_score}")
-            elif measure == "omega-index":
+                file.write(f"{algo}_{measure_name},{nmi_score}\n")
+            elif measure_name == "Omega-Index":
                 omega_index = measure.get_omega_score(result_dir, algo)
-                file.write(f"{algo}_{measure},{omega_index}")
+                file.write(f"{algo}_{measure_name},{omega_index}\n")
             else:
                 raise NotImplementedError("Measure not implemented")
 
-# Runs synthetic networks, weighted parameter denotes whether the syntehtic networks should have weighted edges
+    return True
+
+
+# Runs synthetic networks, weighted parameter denotes whether the synthetic networks should have weighted edges
 def run_synthetic_networks(weighted: bool):
     results.collect_synthetic_results()
-    # visualize.plot_results(weighted, "synthetic")
+    visualize.plot_results(weighted, "synthetic")
 
     # Base parameters
-    default_n = 800
-    default_Om = 2
+    default_n = 700
+    default_Om = 3
     default_On_frac = 0.20
 
+    updated_data = False
+
     # Run experiment set 5 times
-    for nr_run in np.arange(1, 6, 1):
+    for nr_run in np.arange(1, 5, 1):
         # Change the n parameter
-        for n in np.arange(100, 2000, 200):
+        for n in np.arange(100, 1800, 200):
             On = int(default_On_frac * n)
             graph_name, result_dir = create_graph(nr_run, weighted, N=n, Om=default_Om, On=On)
             test_graph(weighted, result_dir)
-            get_scores(True, result_dir, graph_name)
-            raise Exception("Fast stop")
+            new_scores_added = get_scores(True, result_dir, graph_name)
+            updated_data = new_scores_added or updated_data
+            # raise Exception("Fast stop")
 
         for Om in np.arange(1, 6, 1):
             On = int(default_On_frac * default_n)
             graph_name, result_dir = create_graph(nr_run, weighted, N=default_n, Om=Om, On=On)
             test_graph(weighted, result_dir)
-            get_scores(True, result_dir, graph_name)
+            new_scores_added = get_scores(True, result_dir, graph_name)
+            updated_data = new_scores_added or updated_data
 
-        for on_frac in np.arange(0.1, 0.6, 0.1):
+        for on_frac in np.arange(0.1, 0.4, 0.05):
             On = int(default_n * on_frac)
             graph_name, result_dir = create_graph(nr_run, weighted, N=default_n, Om=default_Om, On=On)
             test_graph(weighted, result_dir)
-            get_scores(True, result_dir, graph_name)
+            new_scores_added = get_scores(True, result_dir, graph_name)
+            updated_data = new_scores_added or updated_data
+
+        # raise Exception("Fast stop")
 
     # Algorithm is done running, collect the latest results and write it to the file
-    results.collect_synthetic_results()
+    # But only if data has been updated
+    if updated_data:
+        results.collect_synthetic_results()
+        visualize.plot_results(weighted, "synthetic")
 
 
 def run_real_networks():
@@ -191,5 +213,5 @@ def run_real_networks():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     run_real_networks()
-    # run_synthetic_networks(weighted=False)
-    # run_synthetic_networks(weighted=True)
+    run_synthetic_networks(weighted=False)
+    run_synthetic_networks(weighted=True)

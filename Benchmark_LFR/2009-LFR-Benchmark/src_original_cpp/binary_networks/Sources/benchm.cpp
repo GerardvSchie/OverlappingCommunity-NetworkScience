@@ -95,6 +95,7 @@ double average_degree(const double &dmax, const double &dmin, const double &gamm
 
 //bisection method to find the inferior limit, in order to have the expected average degree
 double solve_dmin(const double& dmax, const double &dmed, const double &gamma) {
+// double dmin=solve_dmin(max_degree, average_k, -tau);
 	
 	double dmin_l=1;
 	double dmin_r=dmax;

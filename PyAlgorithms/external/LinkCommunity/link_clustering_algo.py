@@ -79,7 +79,7 @@ class HLC:
         self.D = 0.0  # partition density
         self.list_D = [(1.0, 0.0)]  # list of (S_i,D_i) tuples...
         self.best_D = 0.0
-        self.best_S = 1.0  # similarity threshold at self.best_D
+        self.best_S = 0.6  # similarity threshold at self.best_D
         self.best_P = None  # best partition, dict: edge -> cid
 
     def single_linkage(self, threshold=None, w=None, dendro_flag=False):

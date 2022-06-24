@@ -7,10 +7,9 @@ import networkx as nx
 import external.WMW.weighted_weak_communities as WMW
 import external.LinkCommunity.link_clustering as LinkCommunity
 import debug
-# from infomap import Infomap
 
 OSLOM2_BIN = os.path.abspath(os.path.join("..", "..", "Algo_Oslom2", "oslom_undir"))
-ALGOS = ["demon", "oslom2", "O-HAMUHI", "ground-truth"]
+ALGOS = ["Demon", "Oslom", "O-HAMUHI", "ground-truth"]
 
 
 def run_demon(G):
@@ -21,7 +20,7 @@ def run_demon(G):
 
 
 def run_oslom2(path: str, weighted):
-    debug.print_msg("Run oslom2")
+    debug.print_msg("Run Oslom")
     if weighted:
         weighted_flag = "-w"
     else:
@@ -38,20 +37,13 @@ def run_oslom2(path: str, weighted):
         "-fast"
     ]
 
-    # subprocess.run(command, shell=True, check=True)
-
     # Somehow does not work with subprocess.run
     command_line = " ".join(command)
     os.system(command_line)
 
-    # Remove leftover files
-    # os.remove("time_seed.dat")
-    # os.remove("tp")
-    # os.remove("oslo_network_h")
-
 
 def run_wnw(G, weighted):
-    debug.print_msg("Run WNW")
+    debug.print_msg("O-HAMUHI")
     if nx.is_directed(G):
         return None
     elif weighted:
@@ -68,8 +60,3 @@ def run_wnw(G, weighted):
 
 def run_link(edges_path: str, result_dir: str, weighted: bool):
     LinkCommunity.detect_communities(None, weighted, None, result_dir, edges_path)
-
-# def run_infomap(edges_path: str, weighted: bool):
-#     im = Infomap(silent=True, num_trials=10)
-#     im.read_file("ninetriangles.net")
-#     im.run()

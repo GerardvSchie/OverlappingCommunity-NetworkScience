@@ -7,7 +7,8 @@ import debug
 
 NMI_BIN = os.path.abspath(os.path.join("..", "..", "Measure_NMI", "mutual"))
 # MEASURES = ["nf1", "nmi", "omega-index", "number-communities"]
-MEASURES = ["nmi", "omega-index", "number-communities"]
+MEASURES = ["NMI", "Omega-Index", "number-of-communities"]
+
 
 # Compute the NMI score
 # https://sites.google.com/site/andrealancichinetti/mutual
@@ -35,7 +36,7 @@ def get_nmi_score(synthetic: bool, graph_name: str, output_name: str) -> float:
 
 # Compares omega score with the ground truth
 def get_omega_score(results_dir: str, algo_output_name: str) -> float:
-    debug.print_msg("Run Omega")
+    debug.print_msg("Run Omega-Index")
     ground_truth = utils.communities_from_file(results_dir, "ground-truth")
     output = utils.communities_from_file(results_dir, algo_output_name)
 
@@ -55,11 +56,9 @@ def get_average_f1_score(results_dir: str, algo_output_name: str) -> float:
     nf1 = results['details']['F1 mean'][0]
     return nf1
 
-    # Visualising the Precision-Recall density scatter-plot
-    # nf.plot()
-
 
 def get_number_communities(results_dir: str, algo_output_name: str) -> int:
+    debug.print_msg("Run nr communities")
     nr_communities = 0
 
     # Count number of communities
