@@ -13,7 +13,7 @@ REPO_DIR=$(pwd)
 cd Algo_Oslom2
 echo "at $(pwd)"
 echo "sh compile_all.sh"
-# sh compile_all.sh
+sh compile_all.sh
 cd "${REPO_DIR}"
 
 # Build LFR benchmark
@@ -22,14 +22,14 @@ mkdir -p build
 cd build
 echo "at $(pwd)"
 echo "cmake .."
-# cmake ..
+cmake ..
 cd "${REPO_DIR}"
 
 # Build NMI
 cd Measure_NMI
 echo "at $(pwd)"
 echo "make ."
-# make .
+make .
 cd "${REPO_DIR}"
 
 # Python requirements

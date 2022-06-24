@@ -15,8 +15,13 @@ General dependencies:
 * java
 * gcc
 
+## Windows
 
-**TODO: Link all the source code locations**
+You can run this repository on Windows using docker
+
+`docker build -t networks_research:latest .`
+`docker run -it networks_research:latest bash`
+
 
 ## Generating synthetic networks
 
